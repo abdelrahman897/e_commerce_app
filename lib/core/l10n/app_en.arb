@@ -1,0 +1,274 @@
+{
+  "@@locale": "en",
+
+  "mainOnboardingTitle": "Personalize Your Experience",
+  "@mainOnboardingTitle": {
+    "description": "Main onboarding screen title shown before theme/language selection"
+  },
+  "getStarted" : "Get Started",
+  "@getStarted" : {},
+  "mainOnboardingBody": "Choose your preferred theme and language to get started with a comfortable, tailored experience that suits your style.",
+  "@mainOnboardingBody": {
+    "description": "Main onboarding screen subtitle explaining the personalization step"
+  },
+"fullNameTitle":"Your full name",
+"@fullNameTitle":{},
+"emailTitle":"Your E-mail",
+"@emailTitle":{},
+"passwordTitle":"Your password",
+"@passwordTitle":{},
+"mobileNumberTitle":"Your mobile number",
+"@mobileNumberTitle":{},
+"addressTitle":"Your Address",
+"@addressTitle":{},
+  "onboardingTitleOne": "Choose Products",
+  "@onboardingTitleOne": {
+    "description": "First onboarding step title"
+  },
+
+  "onboardingBodyOne": "Browse thousands of products across every category from fashion and electronics to home essentials and beyond. Filter by price, brand, or rating to find exactly what you're looking for in seconds.",
+  "@onboardingBodyOne": {
+    "description": "First onboarding step description explaining product browsing"
+  },
+
+  "onboardingTitleTwo": "Make Payment",
+  "@onboardingTitleTwo": {
+    "description": "Second onboarding step title"
+  },
+
+  "onboardingBodyTwo": "Pay securely with your preferred method — credit card, debit card, or digital wallet. Your transactions are always encrypted and protected, so you can shop with complete peace of mind.",
+  "@onboardingBodyTwo": {
+    "description": "Second onboarding step description explaining payment security"
+  },
+
+  "onboardingTitleThree": "Get Your Order",
+  "@onboardingTitleThree": {
+    "description": "Third onboarding step title"
+  },
+
+  "onboardingBodyThree": "Sit back and relax while we handle the rest. Track your delivery in real time and receive your order right at your doorstep, fast and hassle-free.",
+  "@onboardingBodyThree": {
+    "description": "Third onboarding step description explaining delivery tracking"
+  },
+   "mostSelling":"Most Selling Products",
+   "@mostSelling":{},
+  "brands":"Brands",
+  "@brands":{},
+   "searchHint":"what do you search for?",
+   "@searchHint":{},
+"tryAgain":"Try Again",
+"@tryAgain":{},
+  "home":"Home",
+  "@home":{},
+  "category":"Category",
+  "@category":{},
+  "wishList":"WishList",
+  "@wishList":{},
+  "profile":"Profile",
+  "@profile":{},
+  "skip": "Skip",
+  "@skip": {
+    "description": "Button label to skip the onboarding flow"
+  },
+
+  "next": "Next",
+  "@next": {
+    "description": "Button label to go to the next onboarding step"
+  },
+
+  "prev": "Prev",
+  "@prev": {
+    "description": "Button label to go to the previous onboarding step"
+  },
+
+  "loginTitle": "Welcome Back To Route",
+  "@loginTitle": {
+    "description": "Login screen main title greeting returning users"
+  },
+"language" : "Language",
+"@language" : {},
+"theme" : "Theme",
+"@theme" : {},
+"english": "English",
+"@english": {},
+  "arabic": "Arabic",
+  "@arabic": {},
+  "light": "Light",
+  "@light": {},
+  "dark": "Dark",
+  "@dark": {},
+  "loginSubTitle": "Please sign in with your mail",
+  "@loginSubTitle": {
+    "description": "Login screen subtitle instructing users to sign in"
+  },
+
+  "email": "E-mail Address",
+  "@email": {
+    "description": "Label for the email input field"
+  },
+  "notFound":"Image Not Found",
+  "@notFound":{},
+  "emailHint": "Enter your email",
+  "@emailHint": {
+    "description": "Placeholder text inside the email input field"
+  }, 
+  "newPassword": "New Password",
+  "@newPassword": {},
+  "newPasswordHint": "Enter Your New Password",
+  "@newPasswordHint": {},
+  "password": "Password",
+  "@password": {
+    "description": "Label for the password input field"
+  },
+  "enter": "Enter",
+  "@enter": {},
+  "resetCode": "Reset Code",
+  "@resetCode": {},
+  "resetCodeHint": "Enter Your Code",
+  "@resetCodeHint": {},
+"titleWelcome" : "Welcome Back ✨",
+"@titleWelcome" : {},
+"signUpWithGoogle": "Sign up with Google",
+"@signUpWithGoogle": {},
+  "passwordHint": "Enter your password",
+  "@passwordHint": {
+    "description": "Placeholder text inside the password input field"
+  },
+
+  "rePassword": "Re-Password",
+  "@rePassword": {
+    "description": "Label for the re-enter password input field during registration"
+  },
+
+  "rePasswordHint": "Enter password again",
+  "@rePasswordHint": {
+    "description": "Placeholder text inside the re-enter password input field"
+  },
+
+  "confirmPassword": "Confirm Your Password",
+  "@confirmPassword": {
+    "description": "Label or title for the confirm password step or field"
+  },
+
+  "forgotPassword": "Forgot Password?",
+  "@forgotPassword": {
+    "description": "Link or button label to initiate the forgot password flow"
+  },
+
+  "resetPassword": "Reset Password",
+  "@resetPassword": {
+    "description": "Button label to submit the password reset request"
+  },
+
+  "login": "Login",
+  "@login": {
+    "description": "Button label for the login action"
+  },
+
+  "signup": "Sign Up",
+  "@signup": {
+    "description": "Button label for the sign up / registration action"
+  },
+
+  "fullName": "Full Name",
+  "@fullName": {
+    "description": "Label for the full name input field during registration"
+  },
+
+  "fullNameHint": "Enter your name",
+  "@fullNameHint": {
+    "description": "Placeholder text inside the full name input field"
+  },
+
+  "phoneNumber": "Mobile Number",
+  "@phoneNumber": {
+    "description": "Label for the phone number input field"
+  },
+
+  "phoneNumberHint": "Enter your mobile number",
+  "@phoneNumberHint": {
+    "description": "Placeholder text inside the mobile number input field"
+  },
+  "categories":"Categories",
+  "@categories":{},
+  "reviews":"Reviews",
+  "@reviews":{},
+"viewAll":"View All",
+"@viewAll":{},
+  "or": "OR",
+  "@or": {
+    "description": "Divider label between login options, e.g. between form and Google login"
+  },
+
+  "loginWithGoogle": "Login with Google",
+  "@loginWithGoogle": {
+    "description": "Button label for Google OAuth login"
+  },
+
+  "doNotHaveAccount": "Don't have an account? ",
+  "@doNotHaveAccount": {
+    "description": "Prompt text shown on login screen for new users, followed by a signup link"
+  },
+
+  "alreadyHaveAccount": "Already have an account?",
+  "@alreadyHaveAccount": {
+    "description": "Prompt text shown on signup screen for existing users, followed by a login link"
+  },
+
+  "verifyEmail": "Verify Email",
+  "@verifyEmail": {
+    "description": "Title or button label for the email verification screen"
+  },
+  "verifyEmailDescription": "We emailed you the six-digit code to {email}",
+  "@verifyEmailDescription": {
+    "description": "Description on the verify email screen showing where the code was sent",
+    "placeholders": {
+      "email": {
+        "type": "String",
+        "description": "The email address the verification code was sent to"
+      }
+    }
+  },
+"description":"Description",
+"@description":{},
+"size":"Size",
+"@size":{},
+"color":"Color",
+"@color":{},
+"totalPrice":"Total Price",
+"@totalPrice":{},
+"addToCart":"Add To Cart",
+"@addToCart":{},
+"readMore":"Read More",
+"@readMore":{},
+"checkOut":"Check Out",
+"@checkOut":{},
+"productDetails":"Product Details",
+"@productDetails":{},
+"cart":"Cart",
+"@cart":{},
+"sold" : "Sold",
+"@sold" : {},
+"readLess":"Read Less",
+"@readLess":{},
+"route":"Route App",
+"@route":{},
+"cartItemDetails":"Cart Item Details",
+"@cartItemDetails":{},
+"shopNow":"Shop Now",
+"@shopNow":{},
+"addressHint": "Enter your address",
+"@addressHint":{},
+"updateProfile": "Update Your Profile",
+"@updateProfile": {},
+"paymentMethods":"Payment Methods",
+"@paymentMethods":{},
+"tax":"Tax",
+"@tax":{},
+"proceedToPayment":"Proceed to payment",
+"@proceedToPayment":{},
+"order":"Order",
+"@order":{},
+"signOut":"SignOut",
+"@signOut":{}
+}

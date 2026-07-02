@@ -1,0 +1,98 @@
+name: e_commerce_app
+description: "A new Flutter project."
+
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.5
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  bot_toast: ^4.1.3
+  flutter_bounceable: ^1.2.0
+  flutter_easyloading: ^3.0.5
+  flutter_native_splash: ^2.4.7
+  lottie: ^3.3.3
+  flutter_svg: ^2.2.4
+  shimmer: ^3.0.0
+  intl: ^0.20.2
+  shared_preferences: ^2.5.5
+  path_provider: ^2.1.5
+  dartz: ^0.10.1
+  jiffy: ^6.4.4
+  timeago: ^3.7.1
+  equatable: ^2.0.8
+  get_it: ^9.2.1
+  hydrated_bloc: ^11.0.0
+  flutter_bloc: ^9.1.1
+  bloc: ^9.2.0
+  cached_network_image: ^3.4.1
+  carousel_slider_plus: ^7.1.1
+  auto_size_text: ^3.0.0
+  colornames: ^0.2.0
+  flutter_screenutil: ^5.9.3
+  smooth_page_indicator: ^2.0.1
+  dio: ^5.9.2
+  flutter_slidable: ^4.0.3
+  readmore: ^3.0.0
+  skeletonizer: ^2.1.3
+  device_preview: ^1.3.1
+  connectivity_plus: ^7.1.1
+  flutter_secure_storage: ^10.0.0
+  firebase_core: ^4.7.0
+  firebase_auth: ^6.4.0
+  google_sign_in: ^7.2.0
+  bloc_concurrency: ^0.3.0
+  hive_ce: ^2.19.3
+  hive_ce_flutter: ^2.3.4
+  hive_ce_generator: ^1.11.1
+  flutter_stripe: ^12.6.0
+  mockito: ^5.6.4
+  bloc_test: ^10.0.0
+  flutter_launcher_icons: ^0.14.4
+  flutter_dotenv: ^6.0.1
+
+dev_dependencies:
+  build_runner: ^2.12.0
+  flutter_gen_runner:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  test: ^1.30.0
+
+
+flutter_gen:
+  output: lib/core/gen
+  integrations:
+    image: true
+    flutter_svg: true
+    rive: true
+    lottie: true
+
+flutter:
+  generate: true
+  uses-material-design: true
+
+  assets:
+    - assets/icons/
+    - assets/fonts/
+    - assets/images/
+    - assets/animations/
+    - .env
+  fonts:
+    - family: Cairo
+      fonts:
+        - asset: assets/fonts/Cairo-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Cairo-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Cairo-Bold.ttf
+          weight: 600
+        - asset: assets/fonts/Cairo-ExtraBold.ttf
+          weight: 900
