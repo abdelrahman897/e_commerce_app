@@ -14,14 +14,9 @@ import 'package:e_commerce_app/core/services/bloc_observer.dart';
 import 'package:e_commerce_app/core/services/loading_service.dart';
 import 'package:e_commerce_app/core/theme/app_colors_schemes.dart';
 import 'package:e_commerce_app/core/theme/theme_manager.dart';
-import 'package:e_commerce_app/features/authentication/presentation/manager/authentication_bloc.dart';
-import 'package:e_commerce_app/features/cart/presentation/manager/cart_bloc.dart';
-import 'package:e_commerce_app/features/home/presentation/manager/home_bloc.dart';
-import 'package:e_commerce_app/features/products/presentation/manager/product_bloc.dart';
-import 'package:e_commerce_app/features/wishlist/presentation/manager/wishlist_bloc.dart';
 import 'package:e_commerce_app/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
-//import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -41,9 +36,10 @@ Future<void> main() async {
         ? AppColorSchemes.darkScheme
         : AppColorSchemes.lightScheme,
   );
-  
 
-  runApp(DevicePreview(enabled: false, builder: (context) => const MyApp()));
+  runApp(
+    DevicePreview(enabled: kDebugMode, builder: (context) => const MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -55,11 +51,6 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => getIt<ThemeCubit>()),
         BlocProvider(create: (_) => getIt<LanguageCubit>()),
-        BlocProvider(create: (_) => getIt<AuthenticationBloc>()),
-        BlocProvider(create: (_) => getIt<ProductBloc>()),
-        BlocProvider(create: (_) => getIt<CartBloc>()),
-        BlocProvider(create: (_) => getIt<WishlistBloc>()),
-        BlocProvider(create: (_) => getIt<HomeBloc>()),
       ],
       child: ScreenUtilInit(
         designSize: DesignSize.kDesignSize,
