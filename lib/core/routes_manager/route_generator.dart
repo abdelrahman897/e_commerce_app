@@ -7,7 +7,7 @@ import 'package:e_commerce_app/features/authentication/presentation/screens/logi
 import 'package:e_commerce_app/features/authentication/presentation/screens/profile_tab_screen.dart';
 import 'package:e_commerce_app/features/authentication/presentation/screens/register_screen.dart';
 import 'package:e_commerce_app/features/categories/screen/categories_tab_screen.dart';
-import 'package:e_commerce_app/features/home/screen/home_tab_screen.dart';
+import 'package:e_commerce_app/features/home/presentation/screens/home_tab_screen.dart';
 import 'package:e_commerce_app/features/onboarding/screens/onboarding_pages_screen.dart';
 import 'package:e_commerce_app/features/splash/splash_screen.dart';
 import 'package:e_commerce_app/features/wishlist/screen/wishlist_tab_screen.dart';
@@ -33,7 +33,7 @@ class RouteGenerator {
       case Routes.forgetPasswordRoute:
         return MaterialPageRoute(builder: (_) => const ForgetPasswordScreen());
       case Routes.homeTabRoute:
-        return MaterialPageRoute(builder: (_) => HomeTabScreen());
+        return MaterialPageRoute(builder: (_) => const HomeTabScreen());
       case Routes.categoriesTabRoute:
         return MaterialPageRoute(builder: (_) => const CategoriesTabScreen());
       case Routes.wishlistTabRoute:

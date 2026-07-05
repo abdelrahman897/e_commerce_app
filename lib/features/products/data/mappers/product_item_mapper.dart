@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/features/home/data/mappers/category_mapper.dart';
 import 'package:e_commerce_app/features/products/data/models/product_item_model.dart';
 import 'package:e_commerce_app/features/products/domain/entities/product_item.dart';
 
@@ -14,6 +15,6 @@ extension ProductItemMapper on ProductItemModel {
     imageCoverUrl: imageCoverUrl,
     ratingsAverage: ratingsAverage,
     priceAfterDiscount: priceAfterDiscount,
-    // category: category.toEntity,
+     category: category.toEntity,
   );
 }

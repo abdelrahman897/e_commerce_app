@@ -6,7 +6,7 @@ import 'package:e_commerce_app/core/resources/values_manager.dart';
 import 'package:e_commerce_app/core/widget/app_bar/custom_app_bar.dart';
 import 'package:e_commerce_app/core/widget/drawer/custom_drawer.dart';
 import 'package:e_commerce_app/features/categories/screen/categories_tab_screen.dart';
-import 'package:e_commerce_app/features/home/screen/home_tab_screen.dart';
+import 'package:e_commerce_app/features/home/presentation/screens/home_tab_screen.dart';
 import 'package:e_commerce_app/features/authentication/presentation/screens/profile_tab_screen.dart';
 import 'package:e_commerce_app/features/wishlist/screen/wishlist_tab_screen.dart';
 import 'package:flutter/material.dart';
