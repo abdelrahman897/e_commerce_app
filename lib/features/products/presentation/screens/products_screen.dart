@@ -1,11 +1,16 @@
 import 'package:e_commerce_app/core/params/params.dart';
+import 'package:e_commerce_app/core/resources/constants_manager.dart';
+import 'package:e_commerce_app/core/services/loading_service.dart';
+import 'package:e_commerce_app/core/services/snackbar_service.dart';
 import 'package:e_commerce_app/core/widget/app_bar/custom_app_bar.dart';
 import 'package:e_commerce_app/core/widget/state/failure_state_widget.dart';
+import 'package:e_commerce_app/features/cart/presentation/manager/cart_bloc.dart';
 import 'package:e_commerce_app/features/products/presentation/manager/product_bloc.dart';
 import 'package:e_commerce_app/features/products/presentation/widgets/product_loading_state_widget.dart';
 import 'package:e_commerce_app/features/products/presentation/widgets/product_success_state_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 
 class ProductScreen extends StatefulWidget {
@@ -50,25 +55,25 @@ class _ProductScreenState extends State<ProductScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: CustomAppBar(),
-        // body: BlocListener<CartBloc, CartState>(
-        //   listener: (context, cartState) {
-        //     switch (cartState) {
-        //       case CartLoadingState():
-        //         configLoading();
-        //         EasyLoading.show(status: AppConstants.loading);
-        //       case AddProductToCartSuccessState():
-        //         EasyLoading.dismiss();
-        //         SnackBarService.showSuccessMessage(
-        //           AppStrings.addToCartSuccessMessage,
-        //         );
-        //       case CartFailureState():
-        //         EasyLoading.dismiss();
-        //         SnackBarService.showErrorMessage(AppStrings.failureMessage);
-        //       default:
-        //         break;
-        //     }
-        //   },
-          body: BlocBuilder<ProductBloc, ProductState>(
+        body: BlocListener<CartBloc, CartState>(
+          listener: (context, cartState) {
+            switch (cartState) {
+              case CartLoadingState():
+                configLoading();
+                EasyLoading.show(status: AppConstants.loading);
+              case AddProductToCartSuccessState():
+                EasyLoading.dismiss();
+                SnackBarService.showSuccessMessage(
+                  AppStrings.addToCartSuccessMessage,
+                );
+              case CartFailureState():
+                EasyLoading.dismiss();
+                SnackBarService.showErrorMessage(AppStrings.failureMessage);
+              default:
+                break;
+            }
+          },
+          child: BlocBuilder<ProductBloc, ProductState>(
             builder: (context, productState) {
               switch (productState) {
                 case ProductLoadingState():
@@ -105,6 +110,7 @@ class _ProductScreenState extends State<ProductScreen> {
             },
           ),
         ),
+      ),
     );
   }
 }

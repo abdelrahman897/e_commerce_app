@@ -6,10 +6,12 @@ import 'package:e_commerce_app/core/resources/constants_manager.dart';
 import 'package:e_commerce_app/core/resources/values_manager.dart';
 import 'package:e_commerce_app/core/routes_manager/routes.dart';
 import 'package:e_commerce_app/core/services/loading_service.dart';
+import 'package:e_commerce_app/core/services/snackbar_service.dart';
 import 'package:e_commerce_app/core/widget/state/empty_state_widget.dart';
 import 'package:e_commerce_app/core/widget/state/failure_state_widget.dart';
 import 'package:e_commerce_app/core/widget/state/loading_more_state_widget.dart';
 import 'package:e_commerce_app/core/widget/text_field/custom_text_field.dart';
+import 'package:e_commerce_app/features/cart/presentation/manager/cart_bloc.dart';
 import 'package:e_commerce_app/features/products/presentation/manager/product_bloc.dart';
 import 'package:e_commerce_app/features/products/presentation/widgets/product_card.dart';
 import 'package:flutter/material.dart';
@@ -98,25 +100,26 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
         ),
       ),
       body: 
-      // BlocListener<CartBloc, CartState>(
-      //   listener: (context, cartState) {
-      //     switch (cartState) {
-      //       case CartLoadingState():
-      //         configLoading();
-      //         EasyLoading.show(status: AppConstants.loading);
-      //       case AddProductToCartSuccessState():
-      //         EasyLoading.dismiss();
-      //         SnackBarService.showSuccessMessage(
-      //           AppStrings.addToCartSuccessMessage,
-      //         );
-      //       case CartFailureState():
-      //         EasyLoading.dismiss();
-      //         SnackBarService.showErrorMessage(AppStrings.failureMessage);
-      //       default:
-      //         break;
-      //     }
-      //   },
-         BlocConsumer<ProductBloc, ProductState>(
+      
+      BlocListener<CartBloc, CartState>(
+        listener: (context, cartState) {
+          switch (cartState) {
+            case CartLoadingState():
+              configLoading();
+              EasyLoading.show(status: AppConstants.loading);
+            case AddProductToCartSuccessState():
+              EasyLoading.dismiss();
+              SnackBarService.showSuccessMessage(
+                AppStrings.addToCartSuccessMessage,
+              );
+            case CartFailureState():
+              EasyLoading.dismiss();
+              SnackBarService.showErrorMessage(AppStrings.failureMessage);
+            default:
+              break;
+          }
+        },
+        child:   BlocConsumer<ProductBloc, ProductState>(
           listener: (context, productState) {
             if (productState is ProductLoadingState) {
               EasyLoading.show(status: AppConstants.loading);
@@ -178,6 +181,7 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
             }
           },
         ),
+      ),
     );
   }
 }
