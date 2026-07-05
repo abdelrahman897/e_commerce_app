@@ -15,6 +15,7 @@ import 'package:e_commerce_app/core/services/loading_service.dart';
 import 'package:e_commerce_app/core/theme/app_colors_schemes.dart';
 import 'package:e_commerce_app/core/theme/theme_manager.dart';
 import 'package:e_commerce_app/features/authentication/presentation/manager/authentication_bloc.dart';
+import 'package:e_commerce_app/features/home/presentation/manager/home_bloc.dart';
 import 'package:e_commerce_app/features/products/presentation/manager/product_bloc.dart';
 import 'package:e_commerce_app/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -55,6 +56,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => getIt<LanguageCubit>()),
         BlocProvider(create: (_) => getIt<AuthenticationBloc>()),
         BlocProvider(create: (_) => getIt<ProductBloc>()),
+        BlocProvider(create: (_) => getIt<HomeBloc>()),
       ],
       child: ScreenUtilInit(
         designSize: DesignSize.kDesignSize,

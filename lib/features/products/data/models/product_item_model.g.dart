@@ -27,8 +27,8 @@ class ProductItemModelAdapter extends TypeAdapter<ProductItemModel> {
       quantity: (fields[7] as num).toInt(),
       price: (fields[8] as num).toInt(),
       imageCoverUrl: fields[9] as String,
-      // category: fields[10] as CategoryModel,
-      // brand: fields[11] as BrandModel,
+      category: fields[10] as CategoryModel,
+      brand: fields[11] as BrandModel,
       ratingsAverage: (fields[12] as num).toDouble(),
       createdAt: fields[13] as DateTime,
       updatedAt: fields[14] as DateTime,
@@ -62,10 +62,10 @@ class ProductItemModelAdapter extends TypeAdapter<ProductItemModel> {
       ..write(obj.price)
       ..writeByte(9)
       ..write(obj.imageCoverUrl)
-      // ..writeByte(10)
-      // ..write(obj.category)
-      // ..writeByte(11)
-      // ..write(obj.brand)
+      ..writeByte(10)
+      ..write(obj.category)
+      ..writeByte(11)
+      ..write(obj.brand)
       ..writeByte(12)
       ..write(obj.ratingsAverage)
       ..writeByte(13)

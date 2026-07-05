@@ -1,4 +1,6 @@
 import 'package:e_commerce_app/core/network_handler/api_constants.dart';
+import 'package:e_commerce_app/features/home/data/models/brands_response/brand_model.dart';
+import 'package:e_commerce_app/features/home/data/models/categories_response/category_model.dart';
 
 
 import 'package:equatable/equatable.dart';
@@ -27,10 +29,10 @@ class ProductItemModel extends Equatable {
   final int price;
   @HiveField(9)
   final String imageCoverUrl;
-  // @HiveField(10)
-  // final CategoryModel category;
-  // @HiveField(11)
-  // final BrandModel brand;
+  @HiveField(10)
+  final CategoryModel category;
+  @HiveField(11)
+  final BrandModel brand;
   @HiveField(12)
   final double ratingsAverage;
   @HiveField(13)
@@ -55,8 +57,8 @@ class ProductItemModel extends Equatable {
     required this.quantity,
     required this.price,
     required this.imageCoverUrl,
-    // required this.category,
-    // required this.brand,
+    required this.category,
+    required this.brand,
     required this.ratingsAverage,
     required this.createdAt,
     required this.updatedAt,
@@ -77,10 +79,10 @@ class ProductItemModel extends Equatable {
         quantity: json[ApiKeys.quantity] as int,
         price: json[ApiKeys.price] as int,
         imageCoverUrl: json[ApiKeys.imageCover] as String,
-        // category: CategoryModel.fromJson(
-        //   json[ApiKeys.category] as Map<String, dynamic>,
-        // ),
-        // brand: BrandModel.fromJson(json[ApiKeys.brand] as Map<String, dynamic>),
+        category: CategoryModel.fromJson(
+          json[ApiKeys.category] as Map<String, dynamic>,
+        ),
+        brand: BrandModel.fromJson(json[ApiKeys.brand] as Map<String, dynamic>),
         ratingsAverage: (json[ApiKeys.ratingsAverage] as num).toDouble(),
         createdAt: DateTime.parse(json[ApiKeys.createdAt] as String),
         updatedAt: DateTime.parse(json[ApiKeys.updatedAt] as String),
@@ -104,8 +106,8 @@ class ProductItemModel extends Equatable {
       quantity,
       price,
       imageCoverUrl,
-      // category,
-      // brand,
+      category,
+      brand,
       ratingsAverage,
       createdAt,
       updatedAt,

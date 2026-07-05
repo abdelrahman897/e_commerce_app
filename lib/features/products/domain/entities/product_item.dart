@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/features/home/domain/entities/category/category.dart';
 import 'package:equatable/equatable.dart';
 
 class ProductItem extends Equatable {
@@ -9,11 +10,11 @@ class ProductItem extends Equatable {
   final String description;
   final int quantity;
   final int price;
-  // final Category category;
+  final Category category;
   final String imageCoverUrl;
   final double ratingsAverage;
   final int? priceAfterDiscount;
-  
+
   const ProductItem({
     required this.sold,
     required this.imagesUrl,
@@ -26,7 +27,7 @@ class ProductItem extends Equatable {
     required this.imageCoverUrl,
     required this.ratingsAverage,
     this.priceAfterDiscount,
-      // required this.category,
+    required this.category,
   });
 
   factory ProductItem.skeleton() => const ProductItem(
@@ -41,7 +42,7 @@ class ProductItem extends Equatable {
     ratingsQuantity: 100,
     quantity: 10,
     sold: 50,
-    // category: Category(id: '', name: '', slug: '', imageUrl: ''),
+    category: Category(id: '', name: '', slug: '', imageUrl: ''),
   );
 
   @override
@@ -55,7 +56,7 @@ class ProductItem extends Equatable {
       description,
       quantity,
       price,
-      // category,
+      category,
       imageCoverUrl,
       ratingsAverage,
       priceAfterDiscount,
