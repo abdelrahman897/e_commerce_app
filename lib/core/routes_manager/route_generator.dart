@@ -7,7 +7,8 @@ import 'package:e_commerce_app/features/authentication/presentation/screens/logi
 import 'package:e_commerce_app/features/authentication/presentation/screens/register_screen.dart';
 import 'package:e_commerce_app/features/cart/presentation/screens/cart_product_details_screen.dart';
 import 'package:e_commerce_app/features/cart/presentation/screens/cart_screen.dart';
-import 'package:e_commerce_app/features/categories/screen/categories_tab_screen.dart';
+import 'package:e_commerce_app/features/categories/presentation/screens/categories_tab_screen.dart';
+import 'package:e_commerce_app/features/checkout/presentation/screens/checkout_screen.dart';
 import 'package:e_commerce_app/features/home/presentation/screens/home_tab_screen.dart';
 import 'package:e_commerce_app/features/wishlist/presentation/screens/wishlist_tab_screen.dart';
 import 'package:e_commerce_app/features/main_layout/main_layout_screen.dart';
@@ -19,6 +20,7 @@ import 'package:e_commerce_app/features/authentication/presentation/screens/prof
 import 'package:e_commerce_app/features/onboarding/screens/main_onboarding_screen.dart';
 import 'package:e_commerce_app/features/onboarding/screens/onboarding_pages_screen.dart';
 import 'package:e_commerce_app/features/splash/splash_screen.dart';
+import 'package:e_commerce_app/test_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -81,6 +83,13 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => MainLayoutScreen());
       case Routes.searchProductRoute:
         return MaterialPageRoute(builder: (context) => SearchProductScreen());
+      case Routes.checkoutRoute:
+        final orderPrice = settings.arguments as int;
+        return MaterialPageRoute(
+          builder: (_) => CheckoutScreen(orderPrice: orderPrice),
+        );
+      case Routes.testRoute:
+        return MaterialPageRoute(builder: (_) => const TestScreen());
 
       default:
         return unDefinedRoute();

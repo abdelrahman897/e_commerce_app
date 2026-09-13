@@ -23,7 +23,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-
 class ProductDetailsScreen extends StatefulWidget {
   final ProductItem product;
   const ProductDetailsScreen({super.key, required this.product});

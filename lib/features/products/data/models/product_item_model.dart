@@ -2,7 +2,6 @@ import 'package:e_commerce_app/core/network_handler/api_constants.dart';
 import 'package:e_commerce_app/features/home/data/models/brands_response/brand_model.dart';
 import 'package:e_commerce_app/features/home/data/models/categories_response/category_model.dart';
 
-
 import 'package:equatable/equatable.dart';
 import 'package:hive_ce/hive.dart';
 part 'product_item_model.g.dart';

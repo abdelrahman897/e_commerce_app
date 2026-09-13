@@ -29,7 +29,6 @@ class CustomBottomAppBar extends StatelessWidget {
             width: AppWidth.w30,
         height: AppHeight.h30,
           ),
-
         ),
       ],
     );
