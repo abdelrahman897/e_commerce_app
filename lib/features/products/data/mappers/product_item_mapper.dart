@@ -15,6 +15,6 @@ extension ProductItemMapper on ProductItemModel {
     imageCoverUrl: imageCoverUrl,
     ratingsAverage: ratingsAverage,
     priceAfterDiscount: priceAfterDiscount,
-     category: category.toEntity,
+    category: category.toEntity,
   );
 }

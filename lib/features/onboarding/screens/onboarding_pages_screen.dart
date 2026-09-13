@@ -7,7 +7,7 @@ import 'package:e_commerce_app/core/resources/color_manager.dart';
 import 'package:e_commerce_app/core/resources/values_manager.dart';
 import 'package:e_commerce_app/core/routes_manager/routes.dart';
 import 'package:e_commerce_app/core/widget/button/custom_text_button.dart';
-import 'package:e_commerce_app/features/onboarding/domain/onboarding_entity.dart';
+import 'package:e_commerce_app/features/onboarding/domain/entities/onboarding_entity.dart';
 import 'package:e_commerce_app/features/onboarding/widgets/onboarding_app_bar.dart';
 import 'package:e_commerce_app/features/onboarding/widgets/onboarding_page_item.dart';
 import 'package:flutter/material.dart';

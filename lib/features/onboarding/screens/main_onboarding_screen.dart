@@ -14,6 +14,7 @@ import 'package:e_commerce_app/core/resources/font_manager.dart';
 import 'package:e_commerce_app/core/resources/values_manager.dart';
 import 'package:e_commerce_app/core/routes_manager/routes.dart';
 import 'package:e_commerce_app/core/widget/button/custom_elevated_button.dart';
+import 'package:e_commerce_app/features/authentication/presentation/manager/authentication_bloc.dart';
 import 'package:e_commerce_app/features/onboarding/widgets/paragraph_section.dart';
 import 'package:e_commerce_app/features/onboarding/widgets/select_item_row.dart';
 import 'package:flutter/material.dart';
@@ -54,8 +55,7 @@ class MainOnboardingScreen extends StatelessWidget {
                         .read<OnboardingCubit>()
                         .state
                         .isComplete;
-                        /*
-                        final isSignIn = context
+                    final isSignIn = context
                         .read<AuthenticationBloc>()
                         .isSignIn;
 
@@ -64,9 +64,7 @@ class MainOnboardingScreen extends StatelessWidget {
                         context,
                         Routes.mainLayoutRoute,
                       );
-                    } else
-                        */
-                     if (isComplete) {
+                    } else if (isComplete) {
                       Navigator.pushReplacementNamed(
                         context,
                         Routes.loginRoute,

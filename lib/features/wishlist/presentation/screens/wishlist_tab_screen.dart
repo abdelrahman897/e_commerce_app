@@ -7,7 +7,6 @@ import 'package:e_commerce_app/core/widget/card/product_item_card.dart';
 import 'package:e_commerce_app/core/widget/state/empty_state_widget.dart';
 import 'package:e_commerce_app/core/widget/state/failure_state_widget.dart';
 import 'package:e_commerce_app/features/cart/presentation/manager/cart_bloc.dart';
-
 import 'package:e_commerce_app/features/wishlist/presentation/manager/wishlist_bloc.dart';
 import 'package:e_commerce_app/features/wishlist/presentation/widgets/add_product_to_cart_button.dart';
 import 'package:e_commerce_app/features/wishlist/presentation/widgets/delete_product_from_wishlist_button.dart';

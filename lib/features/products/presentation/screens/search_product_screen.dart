@@ -99,9 +99,7 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
           ),
         ),
       ),
-      body: 
-      
-      BlocListener<CartBloc, CartState>(
+      body: BlocListener<CartBloc, CartState>(
         listener: (context, cartState) {
           switch (cartState) {
             case CartLoadingState():
@@ -119,7 +117,7 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
               break;
           }
         },
-        child:   BlocConsumer<ProductBloc, ProductState>(
+        child: BlocConsumer<ProductBloc, ProductState>(
           listener: (context, productState) {
             if (productState is ProductLoadingState) {
               EasyLoading.show(status: AppConstants.loading);
