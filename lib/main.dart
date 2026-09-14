@@ -26,6 +26,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,9 +42,16 @@ Future<void> main() async {
         ? AppColorSchemes.darkScheme
         : AppColorSchemes.lightScheme,
   );
-  
 
-  runApp(DevicePreview(enabled: false, builder: (context) => const MyApp()));
+  await SentryFlutter.init(
+    (options) {
+      options.dsn = 'https://3afdfc0b66fa9eb670f81fd38df4015d@o4512081560469504.ingest.us.sentry.io/4512081574035456';
+      options.tracesSampleRate = 0.1;
+    },
+    appRunner: () => runApp(
+      DevicePreview(enabled: false, builder: (context) => const MyApp()),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

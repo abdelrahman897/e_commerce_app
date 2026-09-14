@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:e_commerce_app/core/extensions/app_localization.dart';
 import 'package:e_commerce_app/core/extensions/padding_extension.dart';
 import 'package:e_commerce_app/core/extensions/theme_extension.dart';
@@ -9,6 +11,7 @@ import 'package:e_commerce_app/core/resources/font_manager.dart';
 import 'package:e_commerce_app/core/resources/values_manager.dart';
 import 'package:e_commerce_app/core/routes_manager/routes.dart';
 import 'package:e_commerce_app/core/services/loading_service.dart';
+import 'package:e_commerce_app/core/services/notification_permission_service.dart';
 import 'package:e_commerce_app/core/services/snackbar_service.dart';
 import 'package:e_commerce_app/core/utils/validators.dart';
 import 'package:e_commerce_app/core/widget/button/custom_elevated_button.dart';
@@ -67,6 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
           case SignInSuccessState():
             EasyLoading.dismiss();
             EasyLoading.showSuccess(AppConstants.success);
+            unawaited(NotificationPermissionService.requestIfNeeded());
             SnackBarService.showSuccessMessage(AppStrings.loginSuccessMessage);
             Navigator.pushNamedAndRemoveUntil(
               context,

@@ -271,4 +271,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signOut => 'SignOut';
+
+  @override
+  String get orderNotificationTitle => 'Order confirmed';
+
+  @override
+  String orderNotificationBody(String product, int quantity, String time) {
+    return '$product x$quantity — payment successful at $time. It will arrive soon.';
+  }
 }

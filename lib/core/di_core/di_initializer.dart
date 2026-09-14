@@ -1,6 +1,7 @@
 import 'package:e_commerce_app/core/di_core/app_di_core.dart';
 import 'package:e_commerce_app/core/resources/constants_manager.dart';
 import 'package:e_commerce_app/core/utils/date_formatter.dart';
+import 'package:e_commerce_app/core/utils/local_notification.dart';
 import 'package:e_commerce_app/features/authentication/di/authentication_di.dart';
 import 'package:e_commerce_app/features/cart/di/cart_di.dart';
 import 'package:e_commerce_app/features/checkout/di/payment_di.dart';
@@ -40,6 +41,7 @@ abstract final class DiInitializer {
     DateFormatter.initialize();
     Stripe.publishableKey = EnvKeys.publishableKey;
     AuthenticationDi.setup();
+    await getIt<LocalNotificationInterface>().initialize();
     HomeDi.setup();
     ProductDi.setup();
     WishlistDi.setup();
