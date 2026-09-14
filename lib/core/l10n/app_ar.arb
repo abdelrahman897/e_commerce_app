@@ -94,5 +94,14 @@
   "tax":"الضريبة",
   "proceedToPayment":"المتابعة إلى الدفع",
   "order":"الطلب",
-  "signOut":"تسجيل الخروج"
+  "signOut":"تسجيل الخروج",
+  "orderNotificationTitle": "تم تأكيد الطلب",
+"orderNotificationBody": "{product} × {quantity} — تم الدفع بنجاح الساعة {time}، هيوصلك في أقرب وقت.",
+"@orderNotificationBody": {
+  "placeholders": {
+    "product": { "type": "String" },
+    "quantity": { "type": "int" },
+    "time": { "type": "String" }
+  }
+}
 }

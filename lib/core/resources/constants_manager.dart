@@ -155,6 +155,9 @@ abstract final class AppConstants {
   static const String productCount = 'productCount';
   static const String categoryId = 'categoryId';
   static const String brandId = 'brandId';
+  static const String orderPrice = 'orderPrice';
+static const String productName = 'productName';
+static const String quantity = 'quantity';
 }
 
 abstract final class WidgetKeys {

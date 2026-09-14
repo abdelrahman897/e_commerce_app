@@ -84,9 +84,13 @@ class RouteGenerator {
       case Routes.searchProductRoute:
         return MaterialPageRoute(builder: (context) => SearchProductScreen());
       case Routes.checkoutRoute:
-        final orderPrice = settings.arguments as int;
+        final args = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
-          builder: (_) => CheckoutScreen(orderPrice: orderPrice),
+            builder: (_) => CheckoutScreen(
+      orderPrice: args[AppConstants.orderPrice] as int,
+      productName: args[AppConstants.productName] as String,
+      quantity: args[AppConstants.quantity] as int,
+    ),
         );
       case Routes.testRoute:
         return MaterialPageRoute(builder: (_) => const TestScreen());

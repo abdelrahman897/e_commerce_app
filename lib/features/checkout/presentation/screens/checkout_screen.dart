@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:e_commerce_app/core/di_core/app_di_core.dart';
 import 'package:e_commerce_app/core/extensions/app_localization.dart';
 import 'package:e_commerce_app/core/extensions/padding_extension.dart';
@@ -8,6 +10,8 @@ import 'package:e_commerce_app/core/resources/constants_manager.dart';
 import 'package:e_commerce_app/core/resources/values_manager.dart';
 import 'package:e_commerce_app/core/services/loading_service.dart';
 import 'package:e_commerce_app/core/services/snackbar_service.dart';
+import 'package:e_commerce_app/core/utils/date_formatter.dart';
+import 'package:e_commerce_app/core/utils/local_notification.dart';
 import 'package:e_commerce_app/core/widget/app_bar/product_app_bar.dart';
 import 'package:e_commerce_app/core/widget/button/custom_elevated_button.dart';
 import 'package:e_commerce_app/features/checkout/presentation/manager/payment_bloc.dart';
@@ -20,7 +24,14 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class CheckoutScreen extends StatefulWidget {
   final int orderPrice;
-  const CheckoutScreen({super.key, required this.orderPrice});
+  final String productName;
+  final int quantity;
+  const CheckoutScreen({
+    super.key,
+    required this.orderPrice,
+    required this.productName,
+    required this.quantity,
+  });
 
   @override
   State<CheckoutScreen> createState() => _CheckoutScreenState();
@@ -40,6 +51,20 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   void _onItemSelected(int index) {
     if (_selectedIndex == index) return;
     setState(() => _selectedIndex = index);
+  }
+
+  Future<void> _showOrderSuccessNotification() async {
+    final formattedTime = DateFormatter.format(DateTime.now());
+
+    await getIt<LocalNotificationInterface>().showOrderNotification(
+      id: 900000000 + DateTime.now().millisecondsSinceEpoch.remainder(100000),
+      title: context.appLocalization.orderNotificationTitle,
+      body: context.appLocalization.orderNotificationBody(
+        widget.productName,
+        widget.quantity,
+        formattedTime,
+      ),
+    );
   }
 
   Future<void> _showSuccessDialog() async {
@@ -79,6 +104,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 context.read<PaymentBloc>().add(const PaymentProcessEvent());
               case ProcessPaymentSuccessState():
                 EasyLoading.dismiss();
+                unawaited(_showOrderSuccessNotification());
                 _showSuccessDialog();
               case PaymentCancelledState():
                 EasyLoading.dismiss();

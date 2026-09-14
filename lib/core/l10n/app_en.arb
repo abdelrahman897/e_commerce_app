@@ -270,5 +270,15 @@
 "order":"Order",
 "@order":{},
 "signOut":"SignOut",
-"@signOut":{}
+"@signOut":{},
+"orderNotificationTitle": "Order confirmed",
+"@orderNotificationTitle": {},
+"orderNotificationBody": "{product} x{quantity} — payment successful at {time}. It will arrive soon.",
+"@orderNotificationBody": {
+  "placeholders": {
+    "product": { "type": "String" },
+    "quantity": { "type": "int" },
+    "time": { "type": "String" }
+  }
+}
 }

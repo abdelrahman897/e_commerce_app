@@ -11,6 +11,8 @@ import 'package:e_commerce_app/core/handler/payment_handler/dio_payment_client.d
 import 'package:e_commerce_app/core/network_handler/network_info.dart';
 import 'package:e_commerce_app/core/storage_handler/hive_storage_client.dart';
 import 'package:e_commerce_app/core/storage_handler/local_storage_handler_interface.dart';
+import 'package:e_commerce_app/core/utils/local_notification.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get_it/get_it.dart';
@@ -26,6 +28,7 @@ abstract final class AppDiCore {
     _registerCubits();
     _registerNetwork();
     _registerPayment();
+    _registerLocalNotification();
   }
 
   static Future<void> _registerStorage() async {
@@ -74,5 +77,10 @@ abstract final class AppDiCore {
 
   static void _registerPayment() async {
     getIt.registerLazySingleton<Stripe>(() => Stripe.instance);
+  }
+  static void _registerLocalNotification() {
+    getIt.registerLazySingleton<LocalNotificationInterface>(
+      () => LocalNotificationImp(plugin: FlutterLocalNotificationsPlugin()),
+    );
   }
 }

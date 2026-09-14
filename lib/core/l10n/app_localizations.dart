@@ -613,6 +613,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'SignOut'**
   String get signOut;
+
+  /// No description provided for @orderNotificationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Order confirmed'**
+  String get orderNotificationTitle;
+
+  /// No description provided for @orderNotificationBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{product} x{quantity} — payment successful at {time}. It will arrive soon.'**
+  String orderNotificationBody(String product, int quantity, String time);
 }
 
 class _AppLocalizationsDelegate

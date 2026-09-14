@@ -148,10 +148,15 @@ class _CartProductDetailsScreenState extends State<CartProductDetailsScreen> {
                   onTap: () => Navigator.pushNamed(
                     context,
                     Routes.checkoutRoute,
-                    arguments: _calculateTotalPrice(
-                      _quantity,
-                      widget.cartItem.price,
-                    ),
+                    arguments: {
+                      AppConstants.orderPrice: _calculateTotalPrice(
+                        _quantity,
+                        widget.cartItem.price,
+                      ),
+                      AppConstants.productName:
+                          widget.cartItem.cartProduct.title,
+                      AppConstants.quantity: _quantity,
+                    },
                   ),
                   totalPrice: _calculateTotalPrice(
                     _quantity,
