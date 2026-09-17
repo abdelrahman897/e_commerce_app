@@ -1,0 +1,10 @@
+{
+  "message": "Login successful",
+  "user": {
+    "name": "Ahmed Ali",
+    "email": "ahmed@test.com",
+    "role": "user"
+  },
+  "token": "test_token_123",
+  "status_msg": null
+}

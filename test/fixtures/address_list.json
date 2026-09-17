@@ -1,0 +1,18 @@
+{
+  "status": "success",
+  "message": "Address retrieved",
+  "data": [
+    {
+      "id": "addr_1",
+      "name": "Home",
+      "details": "123 Main St",
+      "city": "Cairo"
+    },
+    {
+      "id": "addr_2",
+      "name": "Work",
+      "details": "456 Office Rd",
+      "city": "Giza"
+    }
+  ]
+}

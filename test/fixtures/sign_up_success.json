@@ -1,0 +1,10 @@
+{
+  "message": "Registration successful",
+  "user": {
+    "name": "Ahmed Ali",
+    "email": "ahmed@test.com",
+    "role": "user"
+  },
+  "token": "test_token_456",
+  "status_msg": null
+}
