@@ -1,5 +1,4 @@
 
-import 'package:e_commerce_app/core/resources/values_manager.dart';
 import 'package:e_commerce_app/features/onboarding/widgets/bottom_onboarding_navigation.dart';
 import 'package:e_commerce_app/features/onboarding/widgets/paragraph_section.dart';
 import 'package:flutter/material.dart';
@@ -29,22 +28,21 @@ class OnboardingPageItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Image.asset(imagePath),
-          ParagraphSection(title: title, body: body),
-          SizedBox(height: AppHeight.h8,),
-          BottomOnboardingNavigation(
-            currentIndex: currentIndex,
-            pageController: pageController,
-            count: count,
-            isLastPage: isLastPage,
-            onPressedNext: onPressedNext,
-            onPressedPrev: onPressedPrev,
-          ),
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Image.asset(imagePath),
+        ParagraphSection(title: title, body: body),
+        const Spacer(),
+        BottomOnboardingNavigation(
+          currentIndex: currentIndex,
+          pageController: pageController,
+          count: count,
+          isLastPage: isLastPage,
+          onPressedNext: onPressedNext,
+          onPressedPrev: onPressedPrev,
+        ),
+      ],
     );
   }
 }

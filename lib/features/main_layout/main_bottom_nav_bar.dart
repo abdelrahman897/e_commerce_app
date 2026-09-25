@@ -19,7 +19,7 @@ class MainBottomNavBar extends StatelessWidget {
   final ValueChanged<int> onTap;
   final List<MainLayoutTab> tabs;
 
-  static const double _heightFactor = 0.09;
+  static const double _heightFactor = 0.086;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class MainBottomNavBar extends StatelessWidget {
 
     return ClipRRect(
       borderRadius: BorderRadius.vertical(
-        top: Radius.circular(AppRadius.r16),
+        top: Radius.circular(AppRadius.r20),
       ),
       child: SizedBox(
         height: context.height * _heightFactor,

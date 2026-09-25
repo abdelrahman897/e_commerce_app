@@ -205,10 +205,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         key: const Key(WidgetKeys.signUpElevatedButton),
                         customChildWidget: Text(
                           context.appLocalization.signup,
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: ColorManager.white,
-                          ),
+                          style:  context.textTheme.titleSmall?.copyWith(
+                                  color: ColorManager.white,
+                                ),
                         ),
                         onTap: () {
                           if (_keyForm.currentState!.validate()) {
@@ -261,6 +260,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ],
                         ),
                       ),
+                      SizedBox(height: AppHeight.h16),
                       BottomTextSection(
                         key: const Key(WidgetKeys.signUpTextButton),
                         onTap: () => Navigator.pop(context),
@@ -271,8 +271,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ],
                   ).setHorizontalAndVerticalPadding(
                     context,
-                    25,
-                    50,
+                    AppWidth.w16,
+                    AppHeight.h50,
                     enableMediaQuery: false,
                   ),
             ),

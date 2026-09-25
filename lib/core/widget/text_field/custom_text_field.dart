@@ -57,6 +57,36 @@ class CustomTextField extends StatelessWidget {
           : TextInputAction.done,
       decoration: InputDecoration(
         hintText: hint,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadius.r20),
+          borderSide: BorderSide(
+            color: context.customColorScheme.text,
+            width: 1.3,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadius.r20),
+          borderSide: BorderSide(
+            color: context.customColorScheme.text,
+            width: 1.3,
+          ),
+        ),
+
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadius.r20),
+          borderSide: BorderSide(
+            color: context.customColorScheme.text,
+            width: 1.3,
+          ),
+        ),
+
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadius.r20),
+          borderSide: BorderSide(
+            color: context.customColorScheme.text,
+            width: 1.3,
+          ),
+        ),
         prefixIcon: customPrefixWidget?.setHorizontalAndVerticalPadding(
           context,
           AppWidth.w10,

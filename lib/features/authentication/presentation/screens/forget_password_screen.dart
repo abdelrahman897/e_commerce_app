@@ -116,8 +116,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                     ],
                   ).setHorizontalAndVerticalPadding(
                     context,
-                    25,
-                    50,
+                    AppWidth.w16,
+                    AppHeight.h50,
                     enableMediaQuery: false,
                   ),
             ),

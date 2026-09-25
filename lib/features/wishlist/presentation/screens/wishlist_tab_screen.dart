@@ -60,6 +60,7 @@ class _WishlistTabScreenState extends State<WishlistTabScreen> {
               return EmptyStateWidget();
             case GetWishlistSuccessState():
               return ListView.separated(
+                padding: EdgeInsets.symmetric(horizontal: AppWidth.w8),
                 itemBuilder: (context, index) {
                   final wishlistProduct = _wishlistBloc.wishlist[index];
                   return ProductItemCard(

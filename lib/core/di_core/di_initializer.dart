@@ -45,7 +45,7 @@ abstract final class DiInitializer {
     await AppDiCore.setup();
     DateFormatter.initialize();
     Stripe.publishableKey = EnvKeys.publishableKey;
-    AuthenticationDi.setup();
+    await AuthenticationDi.setup();
     await getIt<LocalNotificationInterface>().initialize();
     HomeDi.setup();
     ProductDi.setup();

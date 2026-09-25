@@ -96,7 +96,7 @@ abstract final class AppComponentThemes {
     ),
     focusedErrorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(AppRadius.r16)),
-      borderSide: BorderSide(color: ColorManager.red, width: 2),
+      borderSide: BorderSide(color: colors.outLine, width: 2),
     ),
     labelStyle: textTheme.bodyMedium,
     hintStyle: textTheme.bodyMedium?.copyWith(color: ColorManager.grey),
@@ -243,7 +243,7 @@ abstract final class AppComponentThemes {
 
   // Drawer
   static DrawerThemeData drawerTheme(CustomColorScheme colors) =>
-      DrawerThemeData(backgroundColor: colors.primary, elevation: 0);
+      DrawerThemeData(backgroundColor: colors.primary, elevation: 0 );
   // CircularProgressIndicator
   static ProgressIndicatorThemeData progressIndicatorTheme(
     CustomColorScheme colors,

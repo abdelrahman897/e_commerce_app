@@ -5,7 +5,6 @@ import 'package:e_commerce_app/core/gen/assets.gen.dart';
 import 'package:e_commerce_app/core/params/params.dart';
 import 'package:e_commerce_app/core/resources/color_manager.dart';
 import 'package:e_commerce_app/core/resources/constants_manager.dart';
-import 'package:e_commerce_app/core/resources/font_manager.dart';
 import 'package:e_commerce_app/core/resources/values_manager.dart';
 import 'package:e_commerce_app/core/routes_manager/routes.dart';
 import 'package:e_commerce_app/core/services/snackbar_service.dart';
@@ -152,10 +151,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         key: const Key(WidgetKeys.signInElevatedButton),
                         customChildWidget: Text(
                           context.appLocalization.login,
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: ColorManager.white,
-                          ),
+                          style: context.textTheme.titleSmall?.copyWith(
+                                  color: ColorManager.white,
+                                ),
                         ),
                         onTap: () {
                           if (_keyForm.currentState!.validate()) {
@@ -193,11 +191,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             Flexible(
                               child: Text(
                                 context.appLocalization.loginWithGoogle,
-                                style: TextStyle(
-                                  color: context.customColorScheme.button,
-                                  fontSize: FontSize.s12,
-                                  fontWeight: FontWeight.bold,
+                                style: context.textTheme.titleSmall?.copyWith(
+                                  color: context.customColorScheme.button
                                 ),
+                                
                               ),
                             ),
                           ],
@@ -215,8 +212,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ).setHorizontalAndVerticalPadding(
                     context,
-                    25,
-                    50,
+                    AppWidth.w16,
+                    AppHeight.h50,
                     enableMediaQuery: false,
                   ),
             ),

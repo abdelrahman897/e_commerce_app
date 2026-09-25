@@ -81,7 +81,7 @@ class _OnboardingPagesScreenState extends State<OnboardingPagesScreen> {
     return Scaffold(
       appBar: OnboardingAppBar(
         customLeadingWidget: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(10.0),
           child: RichText(
             text: TextSpan(
               children: [
@@ -107,32 +107,31 @@ class _OnboardingPagesScreenState extends State<OnboardingPagesScreen> {
         ],
       ),
       body:
-          PageView.builder(
-            controller: _pageController,
-            itemBuilder: (context, index) {
-              final item = _onboardingList[index];
-              return OnboardingPageItem(
-                title: item.title(context.appLocalization),
-                body: item.body(context.appLocalization),
-                count: _onboardingList.length,
-                currentIndex: _currentIndex,
-                imagePath: context.isDarkMode
-                    ? item.imageDarkPath
-                    : item.imageLightPath,
-                pageController: _pageController,
-                onPressedNext: _isLastPage
-                    ? () => _finishOnboarding()
-                    : _goToNextPage,
-                onPressedPrev: _goToPreviousPage,
-                isLastPage: _isLastPage,
-              );
-            },
-            itemCount: _onboardingList.length,
-          ).setHorizontalAndVerticalPadding(
-            context,
-            AppWidth.w16,
-            AppHeight.h8,
-            enableMediaQuery: false,
+          Padding(
+            padding:  EdgeInsets.only(bottom: AppHeight.h8 ,right: AppWidth.w16,
+            left: AppWidth.w16, ),
+            child: PageView.builder(
+              controller: _pageController,
+              itemBuilder: (context, index) {
+                final item = _onboardingList[index];
+                return OnboardingPageItem(
+                  title: item.title(context.appLocalization),
+                  body: item.body(context.appLocalization),
+                  count: _onboardingList.length,
+                  currentIndex: _currentIndex,
+                  imagePath: context.isDarkMode
+                      ? item.imageDarkPath
+                      : item.imageLightPath,
+                  pageController: _pageController,
+                  onPressedNext: _isLastPage
+                      ? () => _finishOnboarding()
+                      : _goToNextPage,
+                  onPressedPrev: _goToPreviousPage,
+                  isLastPage: _isLastPage,
+                );
+              },
+              itemCount: _onboardingList.length,
+            ),
           ),
     );
   }

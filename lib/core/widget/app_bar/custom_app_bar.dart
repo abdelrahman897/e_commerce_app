@@ -24,8 +24,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: Padding(
           padding: EdgeInsets.only(
             bottom: AppHeight.h4,
-            right: AppWidth.w8,
-            left: AppWidth.w8,
+            right: AppWidth.w16,
+            left: AppWidth.w16,
           ),
           child: CustomBottomAppBar(heroTag: AppStrings.searchHeroTag),
         ),

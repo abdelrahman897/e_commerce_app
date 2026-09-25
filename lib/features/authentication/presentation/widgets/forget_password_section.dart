@@ -10,17 +10,15 @@ const ForgetPasswordSection({ super.key, this.onPressed });
   @override
   Widget build(BuildContext context){
     
-    return FittedBox(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          CustomTextButton(
-            onPressed:onPressed,
-            title: context.appLocalization.forgotPassword,
-            colorText: context.customColorScheme.button,
-          ),
-        ],
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        CustomTextButton(
+          onPressed:onPressed,
+          title: context.appLocalization.forgotPassword,
+          colorText: context.customColorScheme.button,
+        ),
+      ],
     );
   }
 }

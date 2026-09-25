@@ -73,14 +73,14 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: Padding(
           padding: EdgeInsets.only(
-            right: AppWidth.w16,
-            left: AppWidth.w16,
-            top: AppHeight.h8,
+            right: AppWidth.w12,
+            left: AppWidth.w12,
+            top: AppHeight.h16,
           ),
           child: Hero(
             tag: AppStrings.searchHeroTag,
             child: Material(
-              color: Colors.transparent,
+              color: Colors.transparent,              
               child: CustomTextField(
                 hint: context.appLocalization.searchHint,
                 controller: _searchController,

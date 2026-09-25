@@ -18,7 +18,7 @@ import 'package:e_commerce_app/features/authentication/domain/usecases/user_upda
 import 'package:e_commerce_app/features/authentication/presentation/manager/authentication_bloc.dart';
 
 class AuthenticationDi {
-  static void setup() {
+  static Future<void> setup() async{
     getIt
       // ── Data Source ────────────────────────────────────────────────────
       ..registerLazySingleton<AuthenticationDataSource>(
@@ -75,6 +75,7 @@ class AuthenticationDi {
           deleteAddress: getIt<DeleteAddress>(),
           userUpdateData: getIt<UserUpdateData>(),
           userSignOut: getIt<UserSignOut>(),
+          
         ),
       );
   }
