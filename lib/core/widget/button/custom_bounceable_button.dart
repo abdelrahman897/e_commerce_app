@@ -29,18 +29,20 @@ class CustomBounceableButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Bounceable(
       onTap: onTap,
-      child: Container(
-        width: width ?? double.infinity,
-        height: height,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(borderRadius ?? AppRadius.r8),
-          border: Border.all(
-            color: borderColor ?? ColorManager.transparent,
-            width: borderColor != null ? 2 : 1,
+      child: RepaintBoundary(
+        child: Container(
+          width: width ?? double.infinity,
+          height: height,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(borderRadius ?? AppRadius.r8),
+            border: Border.all(
+              color: borderColor ?? ColorManager.transparent,
+              width: borderColor != null ? 2 : 1,
+            ),
+            color: backgroundColor ?? context.customColorScheme.primary,
           ),
-          color: backgroundColor ?? context.customColorScheme.primary,
+          child: customChildWidget,
         ),
-        child: customChildWidget,
       ),
     );
   }

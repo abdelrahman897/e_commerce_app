@@ -22,10 +22,11 @@ class ProductSuccessStateWidget extends StatelessWidget {
     }
     return GridView.builder(
       itemCount: products.length + (isLoadingMore ? 1 : 0),
+      addAutomaticKeepAlives: false,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        crossAxisSpacing: AppWidth.w8,
-        mainAxisSpacing: AppHeight.h8,
+        crossAxisSpacing: AppWidth.w16,
+        mainAxisSpacing: AppHeight.h20,
         childAspectRatio: 7 / 9,
       ),
       itemBuilder: (context, index) {
@@ -34,6 +35,7 @@ class ProductSuccessStateWidget extends StatelessWidget {
         }
         final product = products[index];
         return ProductCard(
+          key: ValueKey<String>(product.id),
           product: product,
           onTap: () {
             Navigator.pushNamed(

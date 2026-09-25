@@ -18,12 +18,12 @@ class CategoryBodySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: AppHeight.h270,
+      height: AppHeight.h320,
       child: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          crossAxisSpacing: AppHeight.h10,
-          mainAxisSpacing: AppWidth.w10,
+          crossAxisSpacing: AppHeight.h6,
+          mainAxisSpacing: AppWidth.w16,
         ),
         itemCount: isMaxPage ? categories.length : categories.length + 1,
         scrollDirection: Axis.horizontal,

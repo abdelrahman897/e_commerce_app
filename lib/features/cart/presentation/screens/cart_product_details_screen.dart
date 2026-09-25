@@ -1,10 +1,10 @@
 import 'package:e_commerce_app/core/extensions/app_localization.dart';
+import 'package:e_commerce_app/core/extensions/padding_extension.dart';
 import 'package:e_commerce_app/core/extensions/theme_extension.dart';
 import 'package:e_commerce_app/core/params/params.dart';
 import 'package:e_commerce_app/core/resources/constants_manager.dart';
 import 'package:e_commerce_app/core/resources/values_manager.dart';
 import 'package:e_commerce_app/core/routes_manager/routes.dart';
-import 'package:e_commerce_app/core/services/loading_service.dart';
 import 'package:e_commerce_app/core/services/snackbar_service.dart';
 import 'package:e_commerce_app/core/widget/app_bar/product_app_bar.dart';
 import 'package:e_commerce_app/core/widget/bottom/bottom_price_body_section.dart';
@@ -46,7 +46,6 @@ class _CartProductDetailsScreenState extends State<CartProductDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    configLoading();
     _quantity = widget.productCount;
   }
 
@@ -78,110 +77,116 @@ class _CartProductDetailsScreenState extends State<CartProductDetailsScreen> {
         },
         child: Scaffold(
           appBar: ProductAppBar(title: context.appLocalization.cartItemDetails),
-          body: SingleChildScrollView(
-            padding: EdgeInsets.only(
-              left: AppWidth.w16,
-              right: AppWidth.w16,
-              bottom: AppHeight.h50,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CartProductImage(
-                  imagePath: widget.cartItem.cartProduct.imageCoverUrl,
-                  onTap: () => context.read<WishlistBloc>().add(
-                    AddProductToWishlistEvent(
-                      wishlistParams: WishlistParams(
-                        productId: widget.cartItem.cartProduct.id,
+          body:
+              SingleChildScrollView(
+                padding: EdgeInsets.only(
+                  left: AppWidth.w16,
+                  right: AppWidth.w16,
+                  bottom: AppHeight.h50,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CartProductImage(
+                      imagePath: widget.cartItem.cartProduct.imageCoverUrl,
+                      onTap: () => context.read<WishlistBloc>().add(
+                        AddProductToWishlistEvent(
+                          wishlistParams: WishlistParams(
+                            productId: widget.cartItem.cartProduct.id,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                SizedBox(height: AppHeight.h24),
-                ProductSectionItem(
-                  title: widget.cartItem.cartProduct.title,
-                  price: widget.cartItem.price,
-                  body: RatingBodySection(
-                    productRatingAverage:
-                        widget.cartItem.cartProduct.ratingsAverage,
-                    productRatingsQuantity:
-                        widget.cartItem.cartProduct.quantity ?? 0,
-                    numberOfProductSold: widget.cartItem.price,
-                    customChildWidget: ProductCounterButton(
-                      initialValue: _quantity,
-                      onIncrement: (int value) {
-                        setState(() => _quantity = value);
-                      },
-                      onDecrement: (int value) {
-                        setState(() => _quantity = value);
-                      },
+                    SizedBox(height: AppHeight.h24),
+                    ProductSectionItem(
+                      title: widget.cartItem.cartProduct.title,
+                      price: widget.cartItem.price,
+                      body: RatingBodySection(
+                        productRatingAverage:
+                            widget.cartItem.cartProduct.ratingsAverage,
+                        productRatingsQuantity:
+                            widget.cartItem.cartProduct.quantity ?? 0,
+                        numberOfProductSold: widget.cartItem.price,
+                        customChildWidget: ProductCounterButton(
+                          initialValue: _quantity,
+                          onIncrement: (int value) {
+                            setState(() => _quantity = value);
+                          },
+                          onDecrement: (int value) {
+                            setState(() => _quantity = value);
+                          },
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                SizedBox(height: AppHeight.h16),
-                ProductSectionItem(
-                  title: context.appLocalization.size,
-                  body: SizeBodySection(
-                    sizes: const [39, 40, 41, 42, 43],
-                    onSelected: (value) {
-                      selectedSize = value;
-                    },
-                  ),
-                ),
-                SizedBox(height: AppHeight.h20),
-                ProductSectionItem(
-                  title: context.appLocalization.color,
-                  body: ColorBodySection(
-                    colors: const [
-                      Colors.red,
-                      Colors.blueAccent,
-                      Colors.green,
-                      Colors.yellow,
-                    ],
-                    onSelected: (value) {
-                      selectedColor = value;
-                    },
-                  ),
-                ),
-                SizedBox(height: AppHeight.h48),
-                BottomPriceBodySection(
-                  onTap: () => Navigator.pushNamed(
-                    context,
-                    Routes.checkoutRoute,
-                    arguments: {
-                      AppConstants.orderPrice: _calculateTotalPrice(
+                    SizedBox(height: AppHeight.h16),
+                    ProductSectionItem(
+                      title: context.appLocalization.size,
+                      body: SizeBodySection(
+                        sizes: const [39, 40, 41, 42, 43],
+                        onSelected: (value) {
+                          selectedSize = value;
+                        },
+                      ),
+                    ),
+                    SizedBox(height: AppHeight.h20),
+                    ProductSectionItem(
+                      title: context.appLocalization.color,
+                      body: ColorBodySection(
+                        colors: const [
+                          Colors.red,
+                          Colors.blueAccent,
+                          Colors.green,
+                          Colors.yellow,
+                        ],
+                        onSelected: (value) {
+                          selectedColor = value;
+                        },
+                      ),
+                    ),
+                    SizedBox(height: AppHeight.h48),
+                    BottomPriceBodySection(
+                      onTap: () => Navigator.pushNamed(
+                        context,
+                        Routes.checkoutRoute,
+                        arguments: {
+                          AppConstants.orderPrice: _calculateTotalPrice(
+                            _quantity,
+                            widget.cartItem.price,
+                          ),
+                          AppConstants.productName:
+                              widget.cartItem.cartProduct.title,
+                          AppConstants.quantity: _quantity,
+                        },
+                      ),
+                      totalPrice: _calculateTotalPrice(
                         _quantity,
                         widget.cartItem.price,
                       ),
-                      AppConstants.productName:
-                          widget.cartItem.cartProduct.title,
-                      AppConstants.quantity: _quantity,
-                    },
-                  ),
-                  totalPrice: _calculateTotalPrice(
-                    _quantity,
-                    widget.cartItem.price,
-                  ),
-                  customChildWidget: Row(
-                    spacing: AppWidth.w4,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        context.appLocalization.checkOut,
-                        style: context.textTheme.bodyMedium?.copyWith(
-                          color: context.customColorScheme.primary,
-                        ),
+                      customChildWidget: Row(
+                        spacing: AppWidth.w8,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            context.appLocalization.checkOut,
+                            style: context.textTheme.bodyMedium?.copyWith(
+                              color: context.customColorScheme.primary,
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios_outlined,
+                            color: context.customColorScheme.icon,
+                          ),
+                        ],
                       ),
-                      Icon(
-                        Icons.arrow_forward_ios_outlined,
-                        color: context.customColorScheme.icon,
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              ).setHorizontalAndVerticalPadding(
+                context,
+                AppWidth.w8,
+                AppHeight.h12,
+                enableMediaQuery: false,
+              ),
         ),
       ),
     );

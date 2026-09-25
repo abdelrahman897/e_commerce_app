@@ -31,7 +31,7 @@ class ProductItemCard extends StatelessWidget {
     bool isPortrait = MediaQuery.orientationOf(context) == Orientation.portrait;
     return CustomBounceableButton(
       onTap: onTap,
-      backgroundColor: context.customColorScheme.container,
+      backgroundColor: context.customColorScheme.primary,
       borderRadius: AppRadius.r16,
       borderColor: context.customColorScheme.button,
       height: isPortrait ? context.height * 0.15 : context.width * 0.22,

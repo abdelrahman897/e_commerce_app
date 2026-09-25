@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/core/extensions/app_localization.dart';
 import 'package:e_commerce_app/core/extensions/theme_extension.dart';
+import 'package:e_commerce_app/core/params/params.dart';
 import 'package:e_commerce_app/core/widget/state/failure_state_widget.dart';
 import 'package:e_commerce_app/features/home/presentation/manager/home_bloc.dart';
 import 'package:e_commerce_app/features/home/presentation/widgets/category_body_section.dart';
@@ -8,28 +9,40 @@ import 'package:e_commerce_app/features/home/presentation/widgets/custom_section
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CategoriesSection extends StatelessWidget {
-  final HomeBloc homeBloc;
-  final bool onCategoryTapViewAll;
-  final VoidCallback? onCategoryPressed;
-  const CategoriesSection({
-    super.key,
-    required this.homeBloc,
-    required this.onCategoryTapViewAll,
-    this.onCategoryPressed,
-  });
+class CategoriesSection extends StatefulWidget {
+  const CategoriesSection({super.key});
+
+  @override
+  State<CategoriesSection> createState() => _CategoriesSectionState();
+}
+
+class _CategoriesSectionState extends State<CategoriesSection> {
+  bool _viewAllTapped = false;
+
+  void _onViewAll() {
+    final bloc = context.read<HomeBloc>();
+    setState(() => _viewAllTapped = true); // بيبني الـ section ده بس
+    bloc.add(
+      CategoriesLoadMoreEvent(
+        params: CategoryParams(
+          pageNumber: (bloc.currentCategoryPage + 1).toString(),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    final homeBloc = context.read<HomeBloc>();
     return CustomSectionItem(
-      isTapped: onCategoryTapViewAll,
+      isTapped: _viewAllTapped,
       title: context.appLocalization.categories,
-      onPressed: onCategoryPressed,
+      onPressed: _onViewAll,
       body: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, categoryState) {
           switch (categoryState) {
             case HomeLoadingState():
-              return CategoryLoadingWidget();
+              return const CategoryLoadingWidget();
             case CategoriesSuccessState():
               return CategoryBodySection(
                 categories: homeBloc.categories,

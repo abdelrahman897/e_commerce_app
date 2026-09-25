@@ -18,11 +18,11 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomBounceableButton(
-      height: AppHeight.h200,
+      height: AppHeight.h150,
       width: AppWidth.w170,
-      borderRadius: AppRadius.r14,      
+      borderRadius: AppRadius.r15,      
        borderColor: context.customColorScheme.button,
-      backgroundColor: context.customColorScheme.container,
+      backgroundColor: context.customColorScheme.primary,
       onTap: onTap,
       customChildWidget: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

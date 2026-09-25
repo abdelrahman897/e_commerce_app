@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:e_commerce_app/core/params/params.dart';
 import 'package:e_commerce_app/features/products/domain/entities/product_item.dart';
 import 'package:e_commerce_app/features/wishlist/domain/usecases/add_product_to_wishlist.dart';
@@ -24,22 +25,28 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
        _deleteProductFromWishlist = deleteProductFromWishlist,
        _addProductToWishlist = addProductToWishlist,
        super(const WishlistInitialState()) {
-    on<GetWishlistEvent>(_onGetWishlistEvent);
-    on<DeleteProductFromWishlistEvent>(_onDeleteProductFromWishlistEvent);
-    on<AddProductToWishlistEvent>(_onAddProductToWishlistEvent);
+    on<GetWishlistEvent>(_onGetWishlistEvent, transformer: restartable());
+    on<DeleteProductFromWishlistEvent>(
+      _onDeleteProductFromWishlistEvent,
+      transformer: sequential(),
+    );
+    on<AddProductToWishlistEvent>(
+      _onAddProductToWishlistEvent,
+      transformer: sequential(),
+    );
   }
   FutureOr<void> _onGetWishlistEvent(
     GetWishlistEvent event,
     Emitter<WishlistState> emit,
   ) async {
-    emit(WishlistLoadingState());
+    emit(const WishlistLoadingState());
     final result = await _getWishlist();
     result.fold(
       (failure) => emit(WishlistFailureState(failureMessage: failure.message)),
       (wishlist) {
         this.wishlist = wishlist;
         if (wishlist.isEmpty) {
-          emit(WishlistEmptySuccessState());
+          emit(const WishlistEmptySuccessState());
         } else {
           emit(GetWishlistSuccessState());
         }
@@ -51,14 +58,14 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
     DeleteProductFromWishlistEvent event,
     Emitter<WishlistState> emit,
   ) async {
-    emit(WishlistLoadingState());
+    emit(const WishlistLoadingState());
     final result = await _deleteProductFromWishlist(
       params: event.wishlistParams,
     );
     result.fold(
       (failure) => emit(WishlistFailureState(failureMessage: failure.message)),
       (_) {
-        emit(DeleteProductFromWishlistSuccessState());
+        emit(const DeleteProductFromWishlistSuccessState());
         add(GetWishlistEvent());
       },
     );
@@ -68,12 +75,12 @@ class WishlistBloc extends Bloc<WishlistEvent, WishlistState> {
     AddProductToWishlistEvent event,
     Emitter<WishlistState> emit,
   ) async {
-    emit(WishlistLoadingState());
+    emit(const WishlistLoadingState());
     final result = await _addProductToWishlist(params: event.wishlistParams);
     result.fold(
       (failure) => emit(WishlistFailureState(failureMessage: failure.message)),
       (_) {
-        emit(AddProductToWishlistSuccessState());
+        emit(const AddProductToWishlistSuccessState());
         add(GetWishlistEvent());
       },
     );

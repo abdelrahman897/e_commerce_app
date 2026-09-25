@@ -7,8 +7,13 @@ class ImageForgetPasswordSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return context.isDarkMode
-        ? Assets.images.darkForgotPasswordBackgroundImg.image()
-        : Assets.images.lightForgotPasswordBackgroundImg.image();
+    final width = MediaQuery.sizeOf(context).width;
+    final dpr = MediaQuery.devicePixelRatioOf(context);
+
+    final asset = context.isDarkMode
+        ? Assets.images.darkForgotPasswordBackgroundImg
+        : Assets.images.lightForgotPasswordBackgroundImg;
+
+    return asset.image(cacheWidth: (width * dpr).round());
   }
 }

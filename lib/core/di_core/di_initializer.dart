@@ -11,9 +11,11 @@ import 'package:e_commerce_app/features/home/di/home_di.dart';
 import 'package:e_commerce_app/features/products/data/models/product_item_model.dart';
 import 'package:e_commerce_app/features/products/di/product_di.dart';
 import 'package:e_commerce_app/features/wishlist/di/wishlist_di.dart';
+import 'package:e_commerce_app/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hive_ce_flutter/hive_ce_flutter.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
@@ -22,6 +24,9 @@ abstract final class DiInitializer {
   DiInitializer._();
 
   static Future<void> init() async {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
     final storageDirectory = kIsWeb
         ? HydratedStorageDirectory.web
         : HydratedStorageDirectory(
@@ -36,7 +41,7 @@ abstract final class DiInitializer {
       ..registerAdapter(BrandModelAdapter())
       ..registerAdapter(CategoryModelAdapter())
       ..registerAdapter(ProductItemModelAdapter());
-    await dotenv.load();
+    await _initGoogleSignIn();
     await AppDiCore.setup();
     DateFormatter.initialize();
     Stripe.publishableKey = EnvKeys.publishableKey;
@@ -47,5 +52,12 @@ abstract final class DiInitializer {
     WishlistDi.setup();
     PaymentDi.setup();
     CartDi.setup();
+  }
+
+  static Future<void> _initGoogleSignIn() async {
+    await GoogleSignIn.instance.initialize(
+      clientId: kIsWeb ? null : EnvKeys.googleClientId,
+      serverClientId: kIsWeb ? null : EnvKeys.googleClientId,
+    );
   }
 }

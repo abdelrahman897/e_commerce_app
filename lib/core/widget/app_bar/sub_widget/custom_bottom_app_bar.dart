@@ -27,7 +27,7 @@ class CustomBottomAppBar extends StatelessWidget {
               BlendMode.srcIn,
             ),
             width: AppWidth.w30,
-        height: AppHeight.h30,
+            height: AppHeight.h30,
           ),
         ),
       ],

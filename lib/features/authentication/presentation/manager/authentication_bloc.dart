@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:e_commerce_app/core/params/params.dart';
 import 'package:e_commerce_app/core/resources/constants_manager.dart';
 import 'package:e_commerce_app/core/services/profile_cached_service.dart';
@@ -54,11 +55,11 @@ class AuthenticationBloc
        _userForgetPassword = userForgetPassword,
        _profileCacheService = profileCacheService,
        super(const AuthenticationInitialState()) {
-    on<SignInEvent>(_onSignInEvent);
-    on<SignUpEvent>(_onSignUpEvent);
+    on<SignInEvent>(_onSignInEvent , transformer: droppable());
+    on<SignUpEvent>(_onSignUpEvent, transformer: droppable());
     on<SignOutEvent>(_onSignOutEvent);
-    on<ForgetPasswordEvent>(_onForgetPasswordEvent);
-    on<SignInOrSignUpEvent>(_onSignInOrSignUpEvent);
+    on<ForgetPasswordEvent>(_onForgetPasswordEvent, transformer: droppable());
+    on<SignInOrSignUpEvent>(_onSignInOrSignUpEvent, transformer: droppable());
     on<DeleteAddressEvent>(_onDeleteAddressEvent);
     on<AddAddressEvent>(_onAddAddressEvent);
     on<UpdateUserDataEvent>(_onUpdateUserDataEvent);

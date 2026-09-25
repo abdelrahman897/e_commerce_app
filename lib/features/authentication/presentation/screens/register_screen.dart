@@ -7,8 +7,6 @@ import 'package:e_commerce_app/core/resources/color_manager.dart';
 import 'package:e_commerce_app/core/resources/constants_manager.dart';
 import 'package:e_commerce_app/core/resources/font_manager.dart';
 import 'package:e_commerce_app/core/resources/values_manager.dart';
-import 'package:e_commerce_app/core/routes_manager/routes.dart';
-import 'package:e_commerce_app/core/services/loading_service.dart';
 import 'package:e_commerce_app/core/services/snackbar_service.dart';
 import 'package:e_commerce_app/core/utils/validators.dart';
 import 'package:e_commerce_app/core/widget/button/custom_elevated_button.dart';
@@ -60,7 +58,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   void dispose() {
-    super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _fullNameController.dispose();
@@ -70,15 +67,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _passwordFocusNode.dispose();
     _confirmPasswordFocusNode.dispose();
     _confirmPasswordController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AuthenticationBloc, AuthenticationState>(
+    return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, signUpState) {
         switch (signUpState) {
           case AuthenticationLoadingState():
-            configLoading();
             EasyLoading.show(status: AppConstants.loading);
           case SignUpSuccessState():
             EasyLoading.dismiss();
@@ -97,197 +94,191 @@ class _RegisterScreenState extends State<RegisterScreen> {
             return;
         }
       },
-      builder: (context, signUpState) {
-        return SafeArea(
-          child: Scaffold(
-            body: Form(
-              key: _keyForm,
-              child: SingleChildScrollView(
-                key: const Key(WidgetKeys.registerScrollView),
-                physics: const BouncingScrollPhysics(),
-                child:
-                    Column(
-                      children: [
-                        HeaderLogoSection(),
-                        SizedBox(height: AppHeight.h20),
-                        TextFormFieldItem(
-                          key: const Key(WidgetKeys.fullNameFormField),
-                          title: context.appLocalization.fullName,
-                          hint: context.appLocalization.fullNameHint,
-                          controller: _fullNameController,
-                          validator: AppValidators.validateFullName,
-                          customPrefixWidget: Assets.icons.userIcn.svg(
-                            color: context.customColorScheme.text,
-                          ),
-                          textInputType: TextInputType.name,
-                          nextFocus: _phoneFocusNode,
+      child: SafeArea(
+        child: Scaffold(
+          body: Form(
+            key: _keyForm,
+            child: SingleChildScrollView(
+              key: const Key(WidgetKeys.registerScrollView),
+              physics: const BouncingScrollPhysics(),
+              child:
+                  Column(
+                    children: [
+                      HeaderLogoSection(),
+                      SizedBox(height: AppHeight.h20),
+                      TextFormFieldItem(
+                        key: const Key(WidgetKeys.fullNameFormField),
+                        title: context.appLocalization.fullName,
+                        hint: context.appLocalization.fullNameHint,
+                        controller: _fullNameController,
+                        validator: AppValidators.validateFullName,
+                        customPrefixWidget: Assets.icons.userIcn.svg(
+                          color: context.customColorScheme.text,
                         ),
-                        SizedBox(height: AppHeight.h16),
-                        TextFormFieldItem(
-                          key: const Key(WidgetKeys.phoneFormField),
-                          title: context.appLocalization.phoneNumber,
-                          hint: context.appLocalization.phoneNumberHint,
-                          controller: _phoneNumberController,
-                          validator: AppValidators.validatePhoneNumber,
-                          customPrefixWidget: Assets.icons.phoneIcn.svg(
-                            color: context.customColorScheme.text,
-                          ),
-                          textInputType: TextInputType.number,
-                          nextFocus: _emailFocusNode,
-                          focusNode: _phoneFocusNode,
+                        textInputType: TextInputType.name,
+                        nextFocus: _phoneFocusNode,
+                      ),
+                      SizedBox(height: AppHeight.h16),
+                      TextFormFieldItem(
+                        key: const Key(WidgetKeys.phoneFormField),
+                        title: context.appLocalization.phoneNumber,
+                        hint: context.appLocalization.phoneNumberHint,
+                        controller: _phoneNumberController,
+                        validator: AppValidators.validatePhoneNumber,
+                        customPrefixWidget: Assets.icons.phoneIcn.svg(
+                          color: context.customColorScheme.text,
                         ),
-                        SizedBox(height: AppHeight.h16),
-                        TextFormFieldItem(
-                          key: const Key(WidgetKeys.emailFormField),
-                          title: context.appLocalization.email,
-                          hint: context.appLocalization.emailHint,
-                          controller: _emailController,
-                          validator: AppValidators.validateEmail,
-                          customPrefixWidget: Assets.icons.emailIcn.svg(
-                            color: context.customColorScheme.text,
-                          ),
-                          textInputType: TextInputType.text,
-                          nextFocus: _passwordFocusNode,
-                          focusNode: _emailFocusNode,
+                        textInputType: TextInputType.number,
+                        nextFocus: _emailFocusNode,
+                        focusNode: _phoneFocusNode,
+                      ),
+                      SizedBox(height: AppHeight.h16),
+                      TextFormFieldItem(
+                        key: const Key(WidgetKeys.emailFormField),
+                        title: context.appLocalization.email,
+                        hint: context.appLocalization.emailHint,
+                        controller: _emailController,
+                        validator: AppValidators.validateEmail,
+                        customPrefixWidget: Assets.icons.emailIcn.svg(
+                          color: context.customColorScheme.text,
                         ),
-                        SizedBox(height: AppHeight.h16),
-                        TextFormFieldItem(
-                          key: const Key(WidgetKeys.passwordFormField),
-                          title: context.appLocalization.password,
-                          hint: context.appLocalization.passwordHint,
-                          controller: _passwordController,
-                          isObscured: isPasswordHidden,
-                          validator: AppValidators.validatePassword,
-                          customPrefixWidget: Assets.icons.lockIcn.svg(
-                            color: context.customColorScheme.text,
-                          ),
-                          textInputType: TextInputType.text,
-                          nextFocus: _confirmPasswordFocusNode,
-                          focusNode: _passwordFocusNode,
-                          customSuffixWidget: ToggleRigsterPasswordButton(
-                            onTap: () {
-                              isPasswordHidden = !isPasswordHidden;
+                        textInputType: TextInputType.text,
+                        nextFocus: _passwordFocusNode,
+                        focusNode: _emailFocusNode,
+                      ),
+                      SizedBox(height: AppHeight.h16),
+                      TextFormFieldItem(
+                        key: const Key(WidgetKeys.passwordFormField),
+                        title: context.appLocalization.password,
+                        hint: context.appLocalization.passwordHint,
+                        controller: _passwordController,
+                        isObscured: isPasswordHidden,
+                        validator: AppValidators.validatePassword,
+                        customPrefixWidget: Assets.icons.lockIcn.svg(
+                          color: context.customColorScheme.text,
+                        ),
+                        textInputType: TextInputType.text,
+                        nextFocus: _confirmPasswordFocusNode,
+                        focusNode: _passwordFocusNode,
+                        customSuffixWidget: ToggleRigsterPasswordButton(
+                          onTap: () {
+                            isPasswordHidden = !isPasswordHidden;
 
-                              setState(() {});
-                            },
-                            isPassword: true,
-                            isPasswordHidden: isPasswordHidden,
-                            isRePasswordHidden: isRePasswordHidden,
+                            setState(() {});
+                          },
+                          isPassword: true,
+                          isPasswordHidden: isPasswordHidden,
+                          isRePasswordHidden: isRePasswordHidden,
+                        ),
+                      ),
+                      SizedBox(height: AppHeight.h16),
+                      TextFormFieldItem(
+                        key: const Key(WidgetKeys.rePasswordFormField),
+                        title: context.appLocalization.rePassword,
+                        hint: context.appLocalization.rePasswordHint,
+                        controller: _confirmPasswordController,
+                        isObscured: isRePasswordHidden,
+                        validator: (value) {
+                          return AppValidators.validateConfirmPassword(
+                            value,
+                            _passwordController.text,
+                          );
+                        },
+                        customPrefixWidget: Assets.icons.lockIcn.svg(
+                          color: context.customColorScheme.text,
+                        ),
+                        textInputType: TextInputType.text,
+                        focusNode: _confirmPasswordFocusNode,
+                        customSuffixWidget: ToggleRigsterPasswordButton(
+                          onTap: () {
+                            isRePasswordHidden = !isRePasswordHidden;
+
+                            setState(() {});
+                          },
+                          isRePassword: true,
+                          isPasswordHidden: isPasswordHidden,
+                          isRePasswordHidden: isRePasswordHidden,
+                        ),
+                      ),
+                      SizedBox(height: AppHeight.h20),
+                      CustomElevatedButton(
+                        key: const Key(WidgetKeys.signUpElevatedButton),
+                        customChildWidget: Text(
+                          context.appLocalization.signup,
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: ColorManager.white,
                           ),
                         ),
-                        SizedBox(height: AppHeight.h16),
-                        TextFormFieldItem(
-                          key: const Key(WidgetKeys.rePasswordFormField),
-                          title: context.appLocalization.rePassword,
-                          hint: context.appLocalization.rePasswordHint,
-                          controller: _confirmPasswordController,
-                          isObscured: isRePasswordHidden,
-                          validator: (value) {
-                            return AppValidators.validateConfirmPassword(
-                              value,
-                              _passwordController.text,
+                        onTap: () {
+                          if (_keyForm.currentState!.validate()) {
+                            final user = SignUpParams(
+                              name: _fullNameController.text,
+                              email: _emailController.text,
+                              password: _passwordController.text,
+                              rePassword: _confirmPasswordController.text,
+                              phone: _phoneNumberController.text,
                             );
-                          },
-                          customPrefixWidget: Assets.icons.lockIcn.svg(
-                            color: context.customColorScheme.text,
-                          ),
-                          textInputType: TextInputType.text,
-                          focusNode: _confirmPasswordFocusNode,
-                          customSuffixWidget: ToggleRigsterPasswordButton(
-                            onTap: () {
-                              isRePasswordHidden = !isRePasswordHidden;
-
-                              setState(() {});
-                            },
-                            isRePassword: true,
-                            isPasswordHidden: isPasswordHidden,
-                            isRePasswordHidden: isRePasswordHidden,
-                          ),
-                        ),
-                        SizedBox(height: AppHeight.h20),
-                        CustomElevatedButton(
-                          key: const Key(WidgetKeys.signUpElevatedButton),
-                          customChildWidget: Text(
-                            context.appLocalization.signup,
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: ColorManager.white,
-                            ),
-                          ),
-                          onTap: () {
-                            if (_keyForm.currentState!.validate()) {
-                              final user = SignUpParams(
-                                name: _fullNameController.text,
-                                email: _emailController.text,
-                                password: _passwordController.text,
-                                rePassword: _confirmPasswordController.text,
-                                phone: _phoneNumberController.text,
-                              );
-                              context.read<AuthenticationBloc>().add(
-                                SignUpEvent(signUpParams: user),
-                              );
-                            }
-                          },
-                        ),
-                        SizedBox(height: AppHeight.h20),
-                        CustomDividerLineSection(
-                          text: context.appLocalization.or,
-                        ),
-                        SizedBox(height: AppHeight.h16),
-                        CustomElevatedButton(
-                          key: const Key(
-                            WidgetKeys.signUpWithGoogleElevatedButton,
-                          ),
-                          onTap: () {
                             context.read<AuthenticationBloc>().add(
-                              SignInOrSignUpEvent(),
+                              SignUpEvent(signUpParams: user),
                             );
-
-                          },
-                          borderSideColor: context.customColorScheme.button,
-                          backgroundColor: context.customColorScheme.primary,
-                          customChildWidget: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Assets.icons.googleIcn.svg(),
-                              SizedBox(width: AppWidth.w4),
-                              Flexible(
-                                child: Text(
-                                  context.appLocalization.signUpWithGoogle,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: context.customColorScheme.button,
-                                    fontSize: FontSize.s20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                          }
+                        },
+                      ),
+                      SizedBox(height: AppHeight.h20),
+                      CustomDividerLineSection(
+                        text: context.appLocalization.or,
+                      ),
+                      SizedBox(height: AppHeight.h16),
+                      CustomElevatedButton(
+                        key: const Key(
+                          WidgetKeys.signUpWithGoogleElevatedButton,
+                        ),
+                        onTap: () {
+                          context.read<AuthenticationBloc>().add(
+                            SignInOrSignUpEvent(),
+                          );
+                        },
+                        borderSideColor: context.customColorScheme.button,
+                        backgroundColor: context.customColorScheme.primary,
+                        customChildWidget: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Assets.icons.googleIcn.svg(),
+                            SizedBox(width: AppWidth.w4),
+                            Flexible(
+                              child: Text(
+                                context.appLocalization.signUpWithGoogle,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: context.customColorScheme.button,
+                                  fontSize: FontSize.s20,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                        BottomTextSection(
-                          key: const Key(WidgetKeys.signUpTextButton),
-                          onTap: () => Navigator.popAndPushNamed(
-                            context,
-                            Routes.loginRoute,
-                          ),
-                          leftText: context.appLocalization.alreadyHaveAccount,
-                          rightText: context.appLocalization.login,
-                          rightTextColor: context.customColorScheme.button,
-                        ),
-                      ],
-                    ).setHorizontalAndVerticalPadding(
-                      context,
-                      25,
-                      50,
-                      enableMediaQuery: false,
-                    ),
-              ),
+                      ),
+                      BottomTextSection(
+                        key: const Key(WidgetKeys.signUpTextButton),
+                        onTap: () => Navigator.pop(context),
+                        leftText: context.appLocalization.alreadyHaveAccount,
+                        rightText: context.appLocalization.login,
+                        rightTextColor: context.customColorScheme.button,
+                      ),
+                    ],
+                  ).setHorizontalAndVerticalPadding(
+                    context,
+                    25,
+                    50,
+                    enableMediaQuery: false,
+                  ),
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

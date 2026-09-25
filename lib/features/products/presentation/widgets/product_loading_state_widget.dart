@@ -10,6 +10,8 @@ class ProductLoadingStateWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.builder(
       itemCount: 6,
+      addAutomaticKeepAlives: false,
+      physics: const NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: AppWidth.w8,

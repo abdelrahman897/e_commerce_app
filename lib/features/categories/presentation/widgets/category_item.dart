@@ -23,7 +23,6 @@ class CategoryItem extends StatelessWidget {
         color: isSelected
             ? context.customColorScheme.primary
             : ColorManager.transparent,
-        padding:  EdgeInsets.all(AppWidth.w8),
         child:
             Row(
               mainAxisAlignment: MainAxisAlignment.start,

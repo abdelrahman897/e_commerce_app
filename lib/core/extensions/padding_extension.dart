@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/extensions/size_of_media_query.dart';
 import 'package:flutter/material.dart';
 
 extension PaddingtoWidget on Widget {
@@ -13,10 +14,9 @@ extension PaddingtoWidget on Widget {
     double value, {
     bool enableMediaQuery = true,
   }) {
-    var mediaQuery = MediaQuery.of(context);
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: enableMediaQuery ? mediaQuery.size.width * value : value,
+        horizontal: enableMediaQuery ? context.width * value : value,
       ),
       child: this,
     );
@@ -27,10 +27,9 @@ extension PaddingtoWidget on Widget {
     double value, {
     bool enableMediaQuery = true,
   }) {
-    var mediaQuery = MediaQuery.of(context);
     return Padding(
       padding: EdgeInsets.symmetric(
-        vertical: enableMediaQuery ? mediaQuery.size.width * value : value,
+        vertical: enableMediaQuery ? context.width * value : value,
       ),
       child: this,
     );
@@ -42,14 +41,13 @@ extension PaddingtoWidget on Widget {
     double heightValue, {
     bool enableMediaQuery = true,
   }) {
-    var mediaQuery = MediaQuery.of(context);
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: enableMediaQuery
-            ? mediaQuery.size.width * widthValue
+            ? context.width * widthValue
             : widthValue,
         vertical: enableMediaQuery
-            ? mediaQuery.size.height * heightValue
+            ? context.height * heightValue
             : heightValue,
       ),
       child: this,
@@ -64,13 +62,12 @@ extension PaddingtoWidget on Widget {
     double left, {
     bool enableMediaQuery = true,
   }) {
-    var mediaQuery = MediaQuery.of(context);
     return Padding(
       padding: EdgeInsets.only(
-        top: enableMediaQuery ? mediaQuery.size.height * top : top,
-        bottom: enableMediaQuery ? mediaQuery.size.height * down : down,
-        right: enableMediaQuery ? mediaQuery.size.width * right : right,
-        left: enableMediaQuery ? mediaQuery.size.width * left : left,
+        top: enableMediaQuery ? context.height * top : top,
+        bottom: enableMediaQuery ? context.height * down : down,
+        right: enableMediaQuery ? context.width * right : right,
+        left: enableMediaQuery ? context.width * left : left,
       ),
       child: this,
     );

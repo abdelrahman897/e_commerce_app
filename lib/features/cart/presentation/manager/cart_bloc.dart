@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:e_commerce_app/core/params/params.dart';
 import 'package:e_commerce_app/features/cart/domain/entities/cart.dart';
 import 'package:e_commerce_app/features/cart/domain/usecases/add_product_to_cart.dart';
@@ -8,6 +9,7 @@ import 'package:e_commerce_app/features/cart/domain/usecases/delete_product_from
 import 'package:e_commerce_app/features/cart/domain/usecases/get_cart.dart';
 import 'package:e_commerce_app/features/cart/domain/usecases/update_product_quantity.dart';
 import 'package:equatable/equatable.dart';
+import 'package:stream_transform/stream_transform.dart';
 
 part 'cart_event.dart';
 part 'cart_state.dart';
@@ -28,16 +30,21 @@ class CartBloc extends Bloc<CartEvent, CartState> {
        _addProductToCart = addProductToCart,
        _getCart = getCart,
        super(const CartInitialState()) {
+    EventTransformer<E> debounceRestartable<E>(Duration d) =>
+        (events, mapper) => restartable<E>()(events.debounce(d), mapper);
     on<GetCartEvent>(_onGetCartEvent);
     on<DeleteProductFromCartEvent>(_onDeleteProductFromCartEvent);
     on<AddProductToCartEvent>(_onAddProductToCartEvent);
-    on<UpdateProductQuantityEvent>(_onUpdateProductQuantityEvent);
+    on<UpdateProductQuantityEvent>(
+      _onUpdateProductQuantityEvent,
+      transformer: debounceRestartable(const Duration(milliseconds: 450)),
+    );
   }
   FutureOr<void> _onGetCartEvent(
     GetCartEvent event,
     Emitter<CartState> emit,
   ) async {
-    emit(CartLoadingState());
+    emit(const CartLoadingState());
     final result = await _getCart();
     result.fold(
       (failure) => emit(CartFailureState(failureMessage: failure.message)),
@@ -46,11 +53,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         if (cart.items.isEmpty) {
           emit(CartEmptySuccessState());
         } else {
-emit(
-            GetCartSuccessState(),
-        );
+          emit(GetCartSuccessState());
         }
-
       },
     );
   }
@@ -78,7 +82,7 @@ emit(
     AddProductToCartEvent event,
     Emitter<CartState> emit,
   ) async {
-    emit(CartLoadingState());
+    emit(const CartLoadingState());
     final result = await _addProductToCart(params: event.cartParams);
     result.fold(
       (failure) => emit(CartFailureState(failureMessage: failure.message)),

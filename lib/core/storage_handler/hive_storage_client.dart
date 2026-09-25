@@ -38,6 +38,15 @@ class HiveStorageClient implements LocalStorageHandlerInterface {
     await box.put(key, value);
   }
 
+   @override
+  Future<void> putAll({
+    required String boxName,
+    required Map<String, dynamic> entries,
+  }) async {
+    final box = await _openBox(boxName);
+    await box.putAll(entries);
+  }
+
   Future<Box> _openBox(String boxName) async {
     if (Hive.isBoxOpen(boxName)) {
       return Hive.box(boxName);

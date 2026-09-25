@@ -1,10 +1,8 @@
-import 'package:e_commerce_app/core/cubit/language/language_cubit.dart';
 import 'package:e_commerce_app/core/extensions/theme_extension.dart';
 import 'package:e_commerce_app/core/gen/assets.gen.dart';
 import 'package:e_commerce_app/core/resources/constants_manager.dart';
 import 'package:e_commerce_app/core/resources/values_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RatingBodySection extends StatelessWidget {
   final double productRatingAverage;
@@ -21,11 +19,10 @@ class RatingBodySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isArabic =
+        Localizations.localeOf(context).languageCode == AppConstants.ar;
     return Directionality(
-      textDirection:
-          context.read<LanguageCubit>().state.locale == Locale(AppConstants.ar)
-          ? TextDirection.rtl
-          : TextDirection.ltr,
+      textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -59,7 +56,7 @@ class RatingBodySection extends StatelessWidget {
             "$productRatingAverage ($productRatingsQuantity)",
             style: context.textTheme.labelLarge,
           ),
-          Spacer(),
+        const  Spacer(),
           customChildWidget,
         ],
       ),

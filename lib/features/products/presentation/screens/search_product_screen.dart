@@ -5,7 +5,6 @@ import 'package:e_commerce_app/core/params/params.dart';
 import 'package:e_commerce_app/core/resources/constants_manager.dart';
 import 'package:e_commerce_app/core/resources/values_manager.dart';
 import 'package:e_commerce_app/core/routes_manager/routes.dart';
-import 'package:e_commerce_app/core/services/loading_service.dart';
 import 'package:e_commerce_app/core/services/snackbar_service.dart';
 import 'package:e_commerce_app/core/widget/state/empty_state_widget.dart';
 import 'package:e_commerce_app/core/widget/state/failure_state_widget.dart';
@@ -14,6 +13,7 @@ import 'package:e_commerce_app/core/widget/text_field/custom_text_field.dart';
 import 'package:e_commerce_app/features/cart/presentation/manager/cart_bloc.dart';
 import 'package:e_commerce_app/features/products/presentation/manager/product_bloc.dart';
 import 'package:e_commerce_app/features/products/presentation/widgets/product_card.dart';
+import 'package:e_commerce_app/features/products/presentation/widgets/product_loading_state_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -28,15 +28,13 @@ class SearchProductScreen extends StatefulWidget {
 class _SearchProductScreenState extends State<SearchProductScreen> {
   late final TextEditingController _searchController;
   late final FocusNode _searchFocusNode;
-
+  String _submittedQuery = '';
   @override
   void initState() {
     super.initState();
-    configLoading();
     context.read<ProductBloc>().add(const ResetProductsEvent());
     _searchController = TextEditingController();
     _searchFocusNode = FocusNode();
-    _searchController.addListener(() => setState(() {}));
   }
 
   @override
@@ -46,12 +44,21 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
     super.dispose();
   }
 
+  void _onSubmitted(String value) {
+    final query = value.trim();
+    if (query.isEmpty) return;
+    _submittedQuery = query;
+    context.read<ProductBloc>().add(
+      GetProductsEvent(params: ProductParams(categoryId: query)),
+    );
+  }
+
   void _loadMoreProduct(String nextPage, bool isMaxPaged) {
     if (isMaxPaged) return;
     context.read<ProductBloc>().add(
       GetProductsEvent(
         params: ProductParams(
-          categoryId: _searchController.text,
+          categoryId: _submittedQuery,
           pageNumber: nextPage,
         ),
         isLoadMore: true,
@@ -64,46 +71,53 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
-        child: Hero(
-          tag: AppStrings.searchHeroTag,
-          child: Material(
-            child: CustomTextField(
-              hint: context.appLocalization.searchHint,
-              controller: _searchController,
-              customPrefixWidget: Assets.icons.searchIcn.svg(
-                colorFilter: ColorFilter.mode(
-                  context.customColorScheme.button,
-                  BlendMode.srcIn,
+        child: Padding(
+          padding: EdgeInsets.only(
+            right: AppWidth.w16,
+            left: AppWidth.w16,
+            top: AppHeight.h8,
+          ),
+          child: Hero(
+            tag: AppStrings.searchHeroTag,
+            child: Material(
+              color: Colors.transparent,
+              child: CustomTextField(
+                hint: context.appLocalization.searchHint,
+                controller: _searchController,
+                customPrefixWidget: Assets.icons.searchIcn.svg(
+                  colorFilter: ColorFilter.mode(
+                    context.customColorScheme.button,
+                    BlendMode.srcIn,
+                  ),
                 ),
+                onSubmitted: _onSubmitted,
+                focusNode: _searchFocusNode,
+                textInputType: TextInputType.text,
+                customSuffixWidget: ValueListenableBuilder<TextEditingValue>(
+                  valueListenable: _searchController,
+                  builder: (context, value, _) => value.text.isEmpty
+                      ? const SizedBox.shrink()
+                      : IconButton(
+                          onPressed: () {
+                            _searchController.clear();
+                          },
+                          icon: Icon(
+                            Icons.close_outlined,
+                            color: context.customColorScheme.text,
+                          ),
+                        ),
+                ),
+                maxLines: 1,
               ),
-              onSubmitted: (value) {
-                context.read<ProductBloc>().add(
-                  GetProductsEvent(params: ProductParams(categoryId: value)),
-                );
-              },
-              focusNode: _searchFocusNode,
-              textInputType: TextInputType.text,
-              customSuffixWidget: _searchController.text.isNotEmpty
-                  ? IconButton(
-                      onPressed: () {
-                        _searchController.clear();
-                      },
-                      icon: Icon(
-                        Icons.close_outlined,
-                        color: context.customColorScheme.text,
-                      ),
-                    )
-                  : null,
-              maxLines: 1,
             ),
           ),
         ),
       ),
       body: BlocListener<CartBloc, CartState>(
+        listenWhen: (previous, current) => previous != current,
         listener: (context, cartState) {
           switch (cartState) {
             case CartLoadingState():
-              configLoading();
               EasyLoading.show(status: AppConstants.loading);
             case AddProductToCartSuccessState():
               EasyLoading.dismiss();
@@ -118,6 +132,9 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
           }
         },
         child: BlocConsumer<ProductBloc, ProductState>(
+          listenWhen: (previous, current) =>
+              (previous is ProductLoadingState) !=
+              (current is ProductLoadingState),
           listener: (context, productState) {
             if (productState is ProductLoadingState) {
               EasyLoading.show(status: AppConstants.loading);
@@ -127,6 +144,8 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
           },
           builder: (context, productState) {
             switch (productState) {
+              case ProductLoadingState():
+                return const ProductLoadingStateWidget();
               case ProductsSuccessState():
                 return NotificationListener(
                   onNotification: (ScrollNotification notification) {
@@ -151,12 +170,14 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
                       mainAxisSpacing: AppHeight.h8,
                       childAspectRatio: 7 / 9,
                     ),
+                    addAutomaticKeepAlives: false,
                     itemBuilder: (context, index) {
                       if (index >= productState.products.length) {
                         return const LoadingMoreStateWidget();
                       }
                       final product = productState.products[index];
                       return ProductCard(
+                        key: ValueKey<String>(product.id),
                         product: product,
                         onTap: () => Navigator.pushNamed(
                           context,

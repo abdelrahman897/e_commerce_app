@@ -5,7 +5,6 @@ import 'package:e_commerce_app/core/errors/models/error_model.dart';
 import 'package:e_commerce_app/core/network_handler/api_interface.dart';
 import 'package:e_commerce_app/core/network_handler/end_point.dart';
 import 'package:e_commerce_app/core/params/params.dart';
-import 'package:e_commerce_app/core/resources/constants_manager.dart';
 import 'package:e_commerce_app/features/authentication/data/models/address_model.dart';
 import 'package:e_commerce_app/features/authentication/data/models/user_google_response.dart';
 import 'package:e_commerce_app/features/authentication/data/models/authentication_user_model.dart';
@@ -104,17 +103,11 @@ class RemoteAuthenticationDataSource implements AuthenticationDataSource {
   @override
   Future<UserGoogleResponse> signInOrSignUpWithGoogle() async {
     try {
-      GoogleSignIn.instance.initialize(
-        serverClientId: EnvKeys.googleClientId,
-      );
-      final GoogleSignInAccount? googleUser = await GoogleSignIn.instance
+      final GoogleSignInAccount googleUser = await GoogleSignIn.instance
           .authenticate();
 
-      if (googleUser == null) {
-        throw const GoogleSignInCancelledException();
-      }
       final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
+           googleUser.authentication;
 
       final String? idToken = googleAuth.idToken;
 
@@ -128,8 +121,6 @@ class RemoteAuthenticationDataSource implements AuthenticationDataSource {
 
       final UserCredential model = await FirebaseAuth.instance
           .signInWithCredential(credential);
-
-      
 
       final userInfo = model.user!.providerData.single;
       return UserGoogleResponse.fromFirebaseCredential(

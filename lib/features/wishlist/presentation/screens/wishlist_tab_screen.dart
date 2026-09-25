@@ -1,4 +1,3 @@
-import 'package:e_commerce_app/core/di_core/app_di_core.dart';
 import 'package:e_commerce_app/core/params/params.dart';
 import 'package:e_commerce_app/core/resources/constants_manager.dart';
 import 'package:e_commerce_app/core/resources/values_manager.dart';
@@ -26,8 +25,15 @@ class _WishlistTabScreenState extends State<WishlistTabScreen> {
   @override
   void initState() {
     super.initState();
-    _wishlistBloc = getIt<WishlistBloc>();
+    _wishlistBloc = context.read<WishlistBloc>();
     _wishlistBloc.add(GetWishlistEvent());
+  }
+
+  static bool _shouldRebuild(WishlistState previous, WishlistState current) {
+    if (current is AddProductToWishlistSuccessState) return false;
+    if (current is DeleteProductFromWishlistSuccessState) return false;
+    if (current is WishlistFailureState) return false;
+    return true;
   }
 
   @override
@@ -39,11 +45,13 @@ class _WishlistTabScreenState extends State<WishlistTabScreen> {
         }
       },
       child: BlocConsumer<WishlistBloc, WishlistState>(
+        listenWhen: (previous, current) => current is WishlistFailureState,
         listener: (context, wishlistState) {
           if (wishlistState is AddProductToCartSuccessState) {
             SnackBarService.showSuccessMessage(AppStrings.addToCart);
           }
         },
+        buildWhen: _shouldRebuild,
         builder: (context, wishlistState) {
           switch (wishlistState) {
             case WishlistLoadingState():
@@ -51,11 +59,11 @@ class _WishlistTabScreenState extends State<WishlistTabScreen> {
             case WishlistEmptySuccessState():
               return EmptyStateWidget();
             case GetWishlistSuccessState():
-              
               return ListView.separated(
                 itemBuilder: (context, index) {
                   final wishlistProduct = _wishlistBloc.wishlist[index];
                   return ProductItemCard(
+                    key: ValueKey(wishlistProduct.id),
                     topButtonWidget: DeleteProductFromWishlistButton(
                       onDeleteTap: () {
                         context.read<WishlistBloc>().add(

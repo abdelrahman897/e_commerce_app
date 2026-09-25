@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _navigateAfterDelay() async {
-    await Future.delayed(const Duration(seconds: 4));
+    await Future.delayed(const Duration(seconds: 2));
     if (!mounted) return;
     
     Navigator.pushReplacementNamed(context, Routes.mainOnboardingRoute);
@@ -35,11 +35,6 @@ class _SplashScreenState extends State<SplashScreen> {
                 : Assets.images.lightRouteSplashBackgroundImg.provider(),
             fit: BoxFit.cover,
           ),
-        ),
-        child: Center(
-          child: context.isDarkMode
-              ? Assets.images.darkRouteSplashScreenLogoImg.svg()
-              : Assets.images.lightRouteSplashScreenLogoImg.svg(),
         ),
       ),
     );

@@ -12,45 +12,42 @@ import 'package:e_commerce_app/core/routes_manager/route_generator.dart';
 import 'package:e_commerce_app/core/routes_manager/routes.dart';
 import 'package:e_commerce_app/core/services/bloc_observer.dart';
 import 'package:e_commerce_app/core/services/loading_service.dart';
-import 'package:e_commerce_app/core/theme/app_colors_schemes.dart';
 import 'package:e_commerce_app/core/theme/theme_manager.dart';
 import 'package:e_commerce_app/features/authentication/presentation/manager/authentication_bloc.dart';
 import 'package:e_commerce_app/features/cart/presentation/manager/cart_bloc.dart';
-import 'package:e_commerce_app/features/home/presentation/manager/home_bloc.dart';
-import 'package:e_commerce_app/features/products/presentation/manager/product_bloc.dart';
 import 'package:e_commerce_app/features/wishlist/presentation/manager/wishlist_bloc.dart';
-import 'package:e_commerce_app/firebase_options.dart';
-import 'package:firebase_core/firebase_core.dart';
 //import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await ScreenUtil.ensureScreenSize();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  Bloc.observer = MyBlocObserver();
-  await DiInitializer.init();
-  configLoading();
-
-  final themeMode = getIt<ThemeCubit>().state.themeMode;
-  ThemeManager.syncStatusBar(
-    themeMode == ThemeMode.dark
-        ? AppColorSchemes.darkScheme
-        : AppColorSchemes.lightScheme,
-  );
-
   await SentryFlutter.init(
     (options) {
-      options.dsn = 'https://3afdfc0b66fa9eb670f81fd38df4015d@o4512081560469504.ingest.us.sentry.io/4512081574035456';
-      options.tracesSampleRate = 0.1;
+      options.dsn = AppConstants.sentryDSN;
+      options.tracesSampleRate = 0.01;
     },
-    appRunner: () => runApp(
-      DevicePreview(enabled: false, builder: (context) => const MyApp()),
-    ),
+    appRunner: () async {
+      WidgetsFlutterBinding.ensureInitialized();
+
+      await ScreenUtil.ensureScreenSize();
+      await dotenv.load();
+      await DiInitializer.init();
+
+      Bloc.observer = MyBlocObserver();
+
+      configLoading();
+
+      runApp(
+        DevicePreview(
+          enabled: false,
+          builder: (context) => const MyApp(),
+        ),
+      );
+    },
   );
 }
 
@@ -64,10 +61,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => getIt<ThemeCubit>()),
         BlocProvider(create: (_) => getIt<LanguageCubit>()),
         BlocProvider(create: (_) => getIt<AuthenticationBloc>()),
-        BlocProvider(create: (_) => getIt<ProductBloc>()),
-        BlocProvider(create: (_) => getIt<CartBloc>()),
-        BlocProvider(create: (_) => getIt<WishlistBloc>()),
-        BlocProvider(create: (_) => getIt<HomeBloc>()),
+        BlocProvider<CartBloc>.value(value: getIt<CartBloc>()),
+        BlocProvider<WishlistBloc>.value(value: getIt<WishlistBloc>()),
       ],
       child: ScreenUtilInit(
         designSize: DesignSize.kDesignSize,

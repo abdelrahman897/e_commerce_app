@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/core/extensions/theme_extension.dart';
+import 'package:e_commerce_app/core/resources/color_manager.dart';
 import 'package:e_commerce_app/core/resources/values_manager.dart';
 import 'package:flutter/material.dart';
 
@@ -19,8 +20,11 @@ class ParagraphSection extends StatelessWidget {
         SizedBox(height: AppHeight.h8),
         Text(
           body,
-          style: context.textTheme.bodyLarge,
+          style: context.textTheme.bodyMedium?.copyWith(
+            color: ColorManager.grey
+          ),
           textAlign: TextAlign.center,
+
           maxLines: 4,
         ),
       ],

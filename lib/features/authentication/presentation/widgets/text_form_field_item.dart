@@ -45,7 +45,7 @@ class TextFormFieldItem extends StatelessWidget {
       children: [
         Text(
           title,
-          style: context.textTheme.titleMedium?.copyWith(
+          style: context.textTheme.titleSmall?.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -62,8 +62,8 @@ class TextFormFieldItem extends StatelessWidget {
                         onTap: onTap,
                         child: Assets.icons.editIcn.svg(
                           color: context.customColorScheme.text,
-                            width: AppWidth.w16,
-                            height: AppHeight.h16,
+                            width: AppWidth.w18,
+                            height: AppHeight.h18,
                         ),
                       ),
                     )

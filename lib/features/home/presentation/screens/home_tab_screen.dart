@@ -19,11 +19,6 @@ class HomeTabScreen extends StatefulWidget {
 }
 
 class _HomeTabScreenState extends State<HomeTabScreen> {
-  bool onCategoryTapViewAll = false;
-  bool onBrandTapViewAll = false;
-  bool onMostSellingTapViewAll = false;
-  late final HomeBloc _homeBloc;
-  late final ProductBloc _productBloc;
   final List<String> _adsImageList = [
     Assets.images.oneAdBackgroundImg.path,
     Assets.images.twoAdBackgroundImg.path,
@@ -34,11 +29,10 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
   void initState() {
     super.initState();
     if (mounted) {
-      _homeBloc = context.read<HomeBloc>();
-      _homeBloc.add(GetCategoriesEvent(params: CategoryParams()));
-      _homeBloc.add(GetBrandsEvent(params: BrandParams()));
-      _productBloc = context.read<ProductBloc>();
-      _productBloc.add(
+      context.read<HomeBloc>()
+        ..add(GetCategoriesEvent(params: CategoryParams()))
+        ..add(GetBrandsEvent(params: BrandParams()));
+      context.read<ProductBloc>().add(
         GetProductsEvent(
           params: ProductParams(soldParam: AppStrings.soldParam),
         ),
@@ -54,61 +48,11 @@ class _HomeTabScreenState extends State<HomeTabScreen> {
           child: CustomAdsSection(adsImagePath: _adsImageList),
         ),
         SliverToBoxAdapter(child: SizedBox(height: AppHeight.h16)),
-        SliverToBoxAdapter(
-          child: CategoriesSection(
-            homeBloc: _homeBloc,
-            onCategoryTapViewAll: onCategoryTapViewAll,
-            onCategoryPressed: () {
-              setState(() {
-                onCategoryTapViewAll = true;
-              });
-              _homeBloc.add(
-                CategoriesLoadMoreEvent(
-                  params: CategoryParams(
-                    pageNumber: (_homeBloc.currentCategoryPage + 1).toString(),
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-        SliverToBoxAdapter(child: SizedBox(height: AppHeight.h16)),
-        SliverToBoxAdapter(
-          child: BrandsSection(
-            homeBloc: _homeBloc,
-            onBrandTapViewAll: onBrandTapViewAll,
-            onBrandPressed: () {
-              setState(() {
-                onBrandTapViewAll = true;
-              });
-              _homeBloc.add(
-                BrandsLoadMoreEvent(
-                  params: BrandParams(
-                    pageNumber: (_homeBloc.currentBrandPage + 1).toString(),
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-        SliverToBoxAdapter(child: SizedBox(height: AppHeight.h16)),
-        SliverToBoxAdapter(
-          child: MostSellingSection(
-            onMostSellingTapViewAll: onMostSellingTapViewAll,
-            productBloc: _productBloc,
-            onMostSellingPressed: () {
-              context.read<ProductBloc>().add(
-                GetProductsEvent(
-                  params: ProductParams(
-                    pageNumber: "2",
-                    soldParam: AppStrings.soldParam,
-                  ),
-                  isLoadMore: true,
-                ),
-              );
-            },
-          ),
-        ),
+        const SliverToBoxAdapter(child: CategoriesSection()),
+        SliverToBoxAdapter(child: SizedBox(height: AppHeight.h18)),
+        const SliverToBoxAdapter(child: BrandsSection()),
+        SliverToBoxAdapter(child: SizedBox(height: AppHeight.h18)),
+        const SliverToBoxAdapter(child: MostSellingSection()),
       ],
     );
   }

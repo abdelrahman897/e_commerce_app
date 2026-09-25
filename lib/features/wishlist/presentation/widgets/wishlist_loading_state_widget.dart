@@ -7,77 +7,33 @@ import 'package:skeletonizer/skeletonizer.dart';
 class WishlistLoadingStateWidget extends StatelessWidget {
   const WishlistLoadingStateWidget({super.key});
 
-  static const int _skeletonItemCount = 8;
+  static const int _skeletonItemCount = 6;
 
-  static const List<_SkeletonProductData> _skeletonItems = [
-    _SkeletonProductData(
-      title: 'Product Title One',
-      price: 199,
-      rating: 4.5,
-      category: 'Category',
-    ),
-    _SkeletonProductData(
-      title: 'Product Title Two',
-      price: 299,
-      rating: 3.8,
-      category: 'Category',
-    ),
-    _SkeletonProductData(
-      title: 'Product Title Three',
-      price: 149,
-      rating: 4.2,
-      category: 'Category',
-    ),
-    _SkeletonProductData(
-      title: 'Product Title Four',
-      price: 399,
-      rating: 4.7,
-      category: 'Category',
-    ),
-    _SkeletonProductData(
-      title: 'Product Title Five',
-      price: 249,
-      rating: 3.5,
-      category: 'Category',
-    ),
-    _SkeletonProductData(
-      title: 'Product Title Six',
-      price: 179,
-      rating: 4.1,
-      category: 'Category',
-    ),
-    _SkeletonProductData(
-      title: 'Product Title Seven',
-      price: 329,
-      rating: 4.9,
-      category: 'Category',
-    ),
-    _SkeletonProductData(
-      title: 'Product Title Eight',
-      price: 219,
-      rating: 3.9,
-      category: 'Category',
-    ),
+  static const List<String> _skeletonTitles = [
+    'Product Title One',
+    'A Longer Product Title Here',
+    'Product Title',
   ];
 
   @override
   Widget build(BuildContext context) {
-    return Skeletonizer(
-      enabled: true,
-      child: ListView.separated(
-        itemCount: _skeletonItemCount,
-        separatorBuilder: (context, index) => SizedBox(height: AppHeight.h8),
-        itemBuilder: (context, index) {
-          final item = _skeletonItems[index];
-          return ProductItemCard(
-            topButtonWidget: const SizedBox.shrink(),
-            bottomButtonWidget: const SizedBox.shrink(),
-            price: item.price,
-            productImageCoverUrl: '',
-            titleProduct: item.title,
-            ratingsAverage: item.rating,
-          );
-        },
+    return RepaintBoundary(
+      child: Skeletonizer(
+        child: ListView.separated(
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: _skeletonItemCount,
+          separatorBuilder: (context, index) => SizedBox(height: AppHeight.h8),
+          itemBuilder: (context, index) {
+            return ProductItemCard(
+              topButtonWidget: const SizedBox.shrink(),
+              bottomButtonWidget: const SizedBox.shrink(),
+              price: 199,
+              productImageCoverUrl: '',
+              titleProduct: _skeletonTitles[index % _skeletonTitles.length],
+              ratingsAverage: 4.5,
+            );
+          },
+        ),
       ),
     ).setHorizontalAndVerticalPadding(
       context,
@@ -86,18 +42,4 @@ class WishlistLoadingStateWidget extends StatelessWidget {
       enableMediaQuery: false,
     );
   }
-}
-
-class _SkeletonProductData {
-  final String title;
-  final int price;
-  final double rating;
-  final String category;
-
-  const _SkeletonProductData({
-    required this.title,
-    required this.price,
-    required this.rating,
-    required this.category,
-  });
 }

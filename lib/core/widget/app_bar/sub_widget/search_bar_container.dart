@@ -13,7 +13,7 @@ class SearchBarContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomBounceableButton(
-      height: AppHeight.h45,
+      height: AppHeight.h50,
       borderRadius: AppRadius.r25,
       onTap: () => Navigator.pushNamed(context, Routes.searchProductRoute),
       backgroundColor: context.customColorScheme.container,
@@ -23,6 +23,8 @@ class SearchBarContainer extends StatelessWidget {
         spacing: AppWidth.w8,
         children: [
           Assets.icons.searchIcn.svg(
+            width: AppWidth.w26,
+            height: AppHeight.h26,
             colorFilter: ColorFilter.mode(
               context.customColorScheme.button,
               BlendMode.srcIn,
@@ -30,7 +32,7 @@ class SearchBarContainer extends StatelessWidget {
           ),
           Text(
             context.appLocalization.searchHint,
-            style: context.textTheme.titleSmall,
+            style: context.textTheme.bodyMedium,
           ),
         ],
       ).setHorizontalPaddingOnWidget(AppWidth.w8),

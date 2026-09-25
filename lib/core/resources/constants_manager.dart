@@ -114,7 +114,7 @@ abstract final class AppStorageKeys {
 
 abstract final class DesignSize {
   DesignSize._();
-  static const Size kDesignSize = Size(360, 690);
+  static const Size kDesignSize = Size(430, 932);
 }
 
 abstract final class EnvKeys {
@@ -156,8 +156,10 @@ abstract final class AppConstants {
   static const String categoryId = 'categoryId';
   static const String brandId = 'brandId';
   static const String orderPrice = 'orderPrice';
-static const String productName = 'productName';
-static const String quantity = 'quantity';
+  static const String productName = 'productName';
+  static const String quantity = 'quantity';
+  static const String sentryDSN =
+      'https://3afdfc0b66fa9eb670f81fd38df4015d@o4512081560469504.ingest.us.sentry.io/4512081574035456';
 }
 
 abstract final class WidgetKeys {

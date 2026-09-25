@@ -20,9 +20,13 @@ class ProductItemInfoCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(name, maxLines: 1, style: context.textTheme.labelLarge?.copyWith(
-          fontWeight: FontWeight.bold,
-        )),
+        Text(
+          name,
+          maxLines: 1,
+          style: context.textTheme.labelLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         Row(
           spacing: AppWidth.w4,
           children: [
@@ -32,7 +36,9 @@ class ProductItemInfoCard extends StatelessWidget {
         ),
         Text(
           'EGP $price',
-          style: context.textTheme.labelMedium,
+          style: context.textTheme.labelMedium?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ],
     );

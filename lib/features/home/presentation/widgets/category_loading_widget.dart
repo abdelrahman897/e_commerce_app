@@ -15,14 +15,14 @@ class CategoryLoadingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: AppHeight.h250,
+      height: AppHeight.h320,
       child: Skeletonizer(
         enabled: true,
         child: GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            crossAxisSpacing: AppWidth.w8,
-            mainAxisSpacing: AppHeight.h8,
+            crossAxisSpacing: AppHeight.h6,
+          mainAxisSpacing: AppWidth.w16,
           ),
           scrollDirection: Axis.horizontal,
           itemCount: _skeletonCount,

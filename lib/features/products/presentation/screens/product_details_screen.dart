@@ -1,11 +1,11 @@
 import 'package:e_commerce_app/core/extensions/app_localization.dart';
+import 'package:e_commerce_app/core/extensions/padding_extension.dart';
 import 'package:e_commerce_app/core/extensions/theme_extension.dart';
 import 'package:e_commerce_app/core/gen/assets.gen.dart';
 import 'package:e_commerce_app/core/params/params.dart';
 import 'package:e_commerce_app/core/resources/color_manager.dart';
 import 'package:e_commerce_app/core/resources/constants_manager.dart';
 import 'package:e_commerce_app/core/resources/values_manager.dart';
-import 'package:e_commerce_app/core/services/loading_service.dart';
 import 'package:e_commerce_app/core/services/snackbar_service.dart';
 import 'package:e_commerce_app/core/widget/app_bar/product_app_bar.dart';
 import 'package:e_commerce_app/core/widget/bottom/bottom_price_body_section.dart';
@@ -32,22 +32,41 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
-  int _quantity = 1;
-  int selectedColor = -1;
-  int selectedSize = -1;
+  final ValueNotifier<int> _quantity = ValueNotifier<int>(1);
+  int _selectedColorIndex = -1;
+  int _selectedSizeIndex = -1;
+
+  static const List<int> _sizes = <int>[39, 40, 41, 42, 43];
+  static const List<Color> _colors = <Color>[
+    Colors.red,
+    Colors.blueAccent,
+    Colors.green,
+    Colors.yellow,
+  ];
 
   int _calculateTotalPrice(int quantity, int price) {
     return quantity * price;
   }
 
-  @override
-  void initState() {
-    super.initState();
-    configLoading();
+  void _onAddToCart() {
+    if (_selectedSizeIndex == -1) {
+      SnackBarService.showErrorMessage('Please select a size');
+      return;
+    }
+    if (_selectedColorIndex == -1) {
+      SnackBarService.showErrorMessage('Please select a color');
+      return;
+    }
+    context.read<CartBloc>().add(
+      AddProductToCartEvent(
+        cartParams: CartParams(cartProductId: widget.product.id),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final product = widget.product;
     return Scaffold(
       appBar: ProductAppBar(title: context.appLocalization.productDetails),
       body: SingleChildScrollView(
@@ -60,29 +79,25 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ProductSlider(
-              items: widget.product.imagesUrl,
+              items: product.imagesUrl,
               onTap: () => context.read<WishlistBloc>().add(
                 AddProductToWishlistEvent(
-                  wishlistParams: WishlistParams(productId: widget.product.id),
+                  wishlistParams: WishlistParams(productId: product.id),
                 ),
               ),
             ),
             SizedBox(height: AppHeight.h24),
             ProductSectionItem(
-              title: widget.product.title,
-              price: widget.product.priceAfterDiscount ?? widget.product.price,
+              title: product.title,
+              price: product.priceAfterDiscount ?? product.price,
               body: RatingBodySection(
-                productRatingAverage: widget.product.ratingsAverage,
-                productRatingsQuantity: widget.product.ratingsQuantity,
-                numberOfProductSold: widget.product.sold,
+                productRatingAverage: product.ratingsAverage,
+                productRatingsQuantity: product.ratingsQuantity,
+                numberOfProductSold: product.sold,
                 customChildWidget: ProductCounterButton(
-                  initialValue: _quantity,
-                  onIncrement: (int value) {
-                    setState(() => _quantity = value);
-                  },
-                  onDecrement: (int value) {
-                    setState(() => _quantity = value);
-                  },
+                  initialValue: 1,
+                  onIncrement: (value) => _quantity.value = value,
+                  onDecrement: (value) => _quantity.value = value,
                 ),
               ),
             ),
@@ -90,16 +105,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ProductSectionItem(
               title: context.appLocalization.description,
               body: DescriptionBodySection(
-                productDescription: widget.product.description,
+                productDescription: product.description,
               ),
             ),
             SizedBox(height: AppHeight.h16),
             ProductSectionItem(
               title: context.appLocalization.size,
               body: SizeBodySection(
-                sizes: const [39, 40, 41, 42, 43],
+                sizes: _sizes,
                 onSelected: (value) {
-                  selectedSize = value;
+                  _selectedSizeIndex = value;
                 },
               ),
             ),
@@ -107,19 +122,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ProductSectionItem(
               title: context.appLocalization.color,
               body: ColorBodySection(
-                colors: const [
-                  Colors.red,
-                  Colors.blueAccent,
-                  Colors.green,
-                  Colors.yellow,
-                ],
+                colors: _colors,
                 onSelected: (value) {
-                  selectedColor = value;
+                  _selectedColorIndex = value;
                 },
               ),
             ),
             SizedBox(height: AppHeight.h48),
             BlocListener<CartBloc, CartState>(
+              listenWhen: (previous, current) => previous != current,
               listener: (context, cartState) {
                 switch (cartState) {
                   case CartLoadingState():
@@ -139,23 +150,18 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     return;
                 }
               },
-              child: BottomPriceBodySection(
-                totalPrice: _calculateTotalPrice(
-                  _quantity,
-                  widget.product.priceAfterDiscount ?? widget.product.price,
-                ),
-                onTap: () {
-                  if (selectedSize == -1) {
-                    SnackBarService.showErrorMessage('Please select a size');
-                    return;
-                  }
-                  context.read<CartBloc>().add(
-                    AddProductToCartEvent(
-                      cartParams: CartParams(cartProductId: widget.product.id),
+              child: ValueListenableBuilder<int>(
+                valueListenable: _quantity,
+                builder: (context, quantity, addToCartLabel) =>
+                    BottomPriceBodySection(
+                      totalPrice: _calculateTotalPrice(
+                        quantity,
+                        product.priceAfterDiscount ?? product.price,
+                      ),
+                      onTap: _onAddToCart,
+                      customChildWidget: addToCartLabel!,
                     ),
-                  );
-                },
-                customChildWidget: Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
@@ -171,7 +177,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
           ],
         ),
-      ),
+      ).setHorizontalAndVerticalPadding(
+      context,
+      AppWidth.w8,
+      AppHeight.h12,
+      enableMediaQuery: false,
+    ),
     );
   }
 }

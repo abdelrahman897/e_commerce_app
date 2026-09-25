@@ -1,6 +1,6 @@
+
 import 'package:e_commerce_app/core/resources/values_manager.dart';
 import 'package:e_commerce_app/features/onboarding/widgets/bottom_onboarding_navigation.dart';
-
 import 'package:e_commerce_app/features/onboarding/widgets/paragraph_section.dart';
 import 'package:flutter/material.dart';
 
@@ -33,8 +33,8 @@ class OnboardingPageItem extends StatelessWidget {
       child: Column(
         children: [
           Image.asset(imagePath),
-          SizedBox(height: AppHeight.h24),
           ParagraphSection(title: title, body: body),
+          SizedBox(height: AppHeight.h8,),
           BottomOnboardingNavigation(
             currentIndex: currentIndex,
             pageController: pageController,
