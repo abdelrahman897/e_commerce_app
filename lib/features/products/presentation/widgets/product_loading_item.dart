@@ -1,4 +1,3 @@
-import 'package:e_commerce_app/core/extensions/size_of_media_query.dart';
 import 'package:e_commerce_app/core/extensions/theme_extension.dart';
 import 'package:e_commerce_app/core/resources/color_manager.dart';
 import 'package:e_commerce_app/core/resources/values_manager.dart';
@@ -42,9 +41,9 @@ class ProductLoadingItem extends StatelessWidget {
                   children: [
                     Divider(height: AppHeight.h8, endIndent: AppWidth.w56),
                     Container(
-                      height: context.height * 0.036,
-                      width: context.width * 0.08,
-                      decoration: BoxDecoration(
+                      height: AppHeight.h32,
+                      width: AppWidth.w32,
+                      decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: ColorManager.grey,
                       ),

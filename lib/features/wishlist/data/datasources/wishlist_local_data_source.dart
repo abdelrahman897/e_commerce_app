@@ -19,13 +19,10 @@ class WishlistLocalDataSourceImp implements WishlistLocalDataSource {
   Future<void> addCachedProduct({required List<ProductItemModel> items}) async {
     try {
       await _localStorage.clear(boxName: HiveBoxesConstant.wishlistBox);
-      for (final item in items) {
-        await _localStorage.put(
-          boxName: HiveBoxesConstant.wishlistBox,
-          key: item.id,
-          value: item,
-        );
-      }
+       await _localStorage.putAll(
+        boxName: HiveBoxesConstant.wishlistBox,
+        entries: {for (final item in items) item.id: item},
+      );
     } catch (error) {
       throw CacheWriteException(errorMessage: 'Cache Write operation failed');
     }

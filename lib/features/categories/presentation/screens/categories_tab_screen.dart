@@ -34,6 +34,10 @@ class _CategoriesTabScreenState extends State<CategoriesTabScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
+      buildWhen: (prev, curr) =>
+          curr is HomeLoadingState ||
+          curr is GetAllCategoriesSuccessState ||
+          curr is HomeFailureState,
       builder: (context, categoryState) {
         switch (categoryState) {
           case HomeLoadingState():

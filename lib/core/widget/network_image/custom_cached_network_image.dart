@@ -24,27 +24,31 @@ class CustomCachedNetworkImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 16 / 9,
-      child: ClipRRect(
-        borderRadius:
-            borderRadius ?? BorderRadius.circular(radius ?? AppRadius.r16),
-        child: CachedNetworkImage(
-          height: imageHeight ?? AppHeight.h100,
-          width: imageWidth ?? AppWidth.w100,
-          fit: BoxFit.cover,
-          imageUrl: imageItemPath,
-          placeholder: (context, url) =>
-              const Center(child: CircularProgressIndicator()),
-          errorWidget: (context, url, imageError) => const NetworkImageError(),
-          imageBuilder: (context, imageProvider) {
-            return CustomImageBuilder(
-              borderColor: borderColor,
-              borderRadius: radius ?? AppRadius.r16,
-              imageProvider: imageProvider,
-            );
-          },
-        ),
+    final dpr = MediaQuery.devicePixelRatioOf(context);
+    final double displayWidth = imageWidth ?? AppWidth.w100;
+    final double displayHeight = imageHeight ?? AppHeight.h100;
+    final double decodeWidth = displayWidth.isFinite
+      ? displayWidth
+      : MediaQuery.sizeOf(context).width;
+  final int cacheWidth = (decodeWidth * dpr).round();
+
+    return ClipRRect(
+      borderRadius:
+          borderRadius ?? BorderRadius.circular(radius ?? AppRadius.r16),
+      child: CachedNetworkImage(
+        height: displayHeight ,
+        width: displayWidth ,
+        imageUrl: imageItemPath,
+        memCacheWidth: cacheWidth,
+        maxWidthDiskCache: 1080,
+        placeholder: (_, _) => const Center(child: CircularProgressIndicator()),
+        errorWidget: (_, _, _) => const NetworkImageError(),
+        imageBuilder: (context, imageProvider) {
+          return CustomImageBuilder(
+            borderColor: borderColor,
+            imageProvider: imageProvider,
+          );
+        },
       ),
     );
   }

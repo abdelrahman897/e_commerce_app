@@ -1,13 +1,11 @@
-import 'package:e_commerce_app/core/cubit/language/language_cubit.dart';
 import 'package:e_commerce_app/core/extensions/app_localization.dart';
 import 'package:e_commerce_app/core/extensions/padding_extension.dart';
-import 'package:e_commerce_app/core/extensions/size_of_media_query.dart';
 import 'package:e_commerce_app/core/extensions/theme_extension.dart';
 import 'package:e_commerce_app/core/gen/assets.gen.dart';
 import 'package:e_commerce_app/core/resources/constants_manager.dart';
 import 'package:e_commerce_app/core/resources/values_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 
 class ProductInfoSection extends StatelessWidget {
   final String title;
@@ -32,8 +30,12 @@ class ProductInfoSection extends StatelessWidget {
     return '${words.sublist(0, 4).join(' ')}..';
   }
 
+  String _formatPrice(double value) => value.toStringAsFixed(0);
+
   @override
   Widget build(BuildContext context) {
+    final isArabic =
+        Localizations.localeOf(context).languageCode == AppConstants.ar;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,28 +48,30 @@ class ProductInfoSection extends StatelessWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
-        SizedBox(height: context.height * 0.002),
+        SizedBox(height: AppHeight.h8),
         Text(
           _truncateTitle(description),
           style: context.textTheme.labelMedium,
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
         ),
-        SizedBox(height: context.height * 0.01),
+        SizedBox(height: AppHeight.h12),
         if (price != null)
           Row(
-            spacing: AppWidth.w4,
+            spacing: AppWidth.w16,
             children: [
               Text(
-                "EGP $price",
-                softWrap: true,
+                'EGP ${_formatPrice(price!)}',
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: context.textTheme.labelMedium,
+                style: context.textTheme.labelLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
               ),
               Text(
-                "$priceBeforeDiscount EGP ",
-                style: context.textTheme.labelSmall?.copyWith(
+                '${_formatPrice(priceBeforeDiscount)} EGP',
+                style: context.textTheme.labelMedium?.copyWith(
+                  color: context.customColorScheme.button,
                   decoration: TextDecoration.lineThrough,
                   decorationColor: context.customColorScheme.button,
                 ),
@@ -76,39 +80,46 @@ class ProductInfoSection extends StatelessWidget {
           )
         else
           Text(
-            "EGP $priceBeforeDiscount",
+            'EGP ${_formatPrice(priceBeforeDiscount)}',
             softWrap: true,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: context.textTheme.labelMedium,
+            style: context.textTheme.labelLarge?.copyWith(
+            fontWeight: FontWeight.bold,
           ),
-        SizedBox(height: AppHeight.h2),
+          ),
+        SizedBox(height: AppHeight.h8),
         Directionality(
-          textDirection: context.read<LanguageCubit>().state.locale.languageCode == (AppConstants.ar) ?TextDirection.rtl:TextDirection.ltr,
+          textDirection: isArabic ? TextDirection.rtl : TextDirection.ltr,
           child: Row(
             children: [
               Text(
                 context.appLocalization.reviews,
                 style: context.textTheme.labelLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
+              ),
+              SizedBox(width: AppWidth.w2),
+              Text(
+                "($rating) ",
+                style: context.textTheme.labelMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(width: AppWidth.w6),
-              Text("($rating) ", style: context.textTheme.labelMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-              )),
               Assets.icons.starIcn.svg(
                 width: AppWidth.w16,
                 height: AppHeight.h16,
               ),
-              Spacer(),
+              const Spacer(),
               IconButton(
                 onPressed: onPressed,
+                padding: EdgeInsets.zero,
+  constraints: const BoxConstraints(),
                 color: context.customColorScheme.button,
                 icon: Icon(
                   Icons.add_circle_rounded,
                   color: context.customColorScheme.button,
-                  size: AppIconSize.normal,
+                  size: AppIconSize.large,
                 ),
               ),
             ],
@@ -117,8 +128,8 @@ class ProductInfoSection extends StatelessWidget {
       ],
     ).setHorizontalAndVerticalPadding(
       context,
-      AppWidth.w4,
-      AppHeight.h4,
+      AppWidth.w8,
+      AppHeight.h10,
       enableMediaQuery: false,
     );
   }

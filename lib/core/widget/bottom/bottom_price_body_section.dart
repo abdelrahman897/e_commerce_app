@@ -28,7 +28,7 @@ class BottomPriceBodySection extends StatelessWidget {
             ),
             Text(
               "EGP $totalPrice",
-              style: context.textTheme.bodyLarge?.copyWith(
+              style: context.textTheme.titleSmall?.copyWith(
                 color: context.customColorScheme.button,
               ),
             ),
@@ -38,7 +38,8 @@ class BottomPriceBodySection extends StatelessWidget {
         Expanded(
           child: CustomElevatedButton(
             onTap: onTap,
-            height: AppHeight.h36,
+            height: AppHeight.h48,
+            borderRadius: AppRadius.r20,
             customChildWidget: customChildWidget,
           ),
         ),

@@ -37,6 +37,7 @@ class CustomSectionItem extends StatelessWidget {
             ),
           ],
         ),
+        SizedBox(height: AppHeight.h8,),
         body,
       ],
     );

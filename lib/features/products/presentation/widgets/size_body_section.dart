@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 class SizeBodySection extends StatefulWidget {
   final List<int> sizes;
   final ValueChanged<int> onSelected;
+  final int initialIndex;
   const SizeBodySection({
     super.key,
     required this.sizes,
     required this.onSelected,
+    this.initialIndex = -1,
   });
 
   @override
@@ -16,7 +18,7 @@ class SizeBodySection extends StatefulWidget {
 }
 
 class _SizeBodySectionState extends State<SizeBodySection> {
-  int selected = -1;
+  late int _selectedIndex = widget.initialIndex;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -25,10 +27,11 @@ class _SizeBodySectionState extends State<SizeBodySection> {
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           final size = widget.sizes[index];
-          final isSelected = index == selected;
+          final isSelected = index == _selectedIndex;
           return SizeItem(
             onTap: () {
-              setState(() => selected = index);
+              if (isSelected) return;
+              setState(() => _selectedIndex = index);
               widget.onSelected(index);
             },
             sizeNumber: size,

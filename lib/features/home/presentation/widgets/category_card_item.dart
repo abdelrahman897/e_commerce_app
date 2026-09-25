@@ -23,12 +23,24 @@ class CategoryCardItem extends StatelessWidget {
       onTap: onTap,
       child: Column(
         children: [
-          CustomCachedNetworkImage(
-            imageItemPath: imageItemPath,
-            borderRadius: BorderRadius.circular(AppRadius.r100),
+          Expanded(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return CustomCachedNetworkImage(
+                  imageItemPath: imageItemPath,
+                  borderRadius: BorderRadius.circular(AppRadius.r100),
+                );
+              },
+            ),
           ),
           SizedBox(height: AppHeight.h8),
-          AutoSizeText(title, style: context.textTheme.labelSmall,  maxLines: 2,),
+          AutoSizeText(
+            title,
+            style: context.textTheme.labelMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+            maxLines: 2,
+          ),
         ],
       ),
     );

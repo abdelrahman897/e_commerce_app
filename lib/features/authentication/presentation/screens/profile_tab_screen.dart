@@ -7,7 +7,6 @@ import 'package:e_commerce_app/core/resources/color_manager.dart';
 import 'package:e_commerce_app/core/resources/constants_manager.dart';
 import 'package:e_commerce_app/core/resources/values_manager.dart';
 import 'package:e_commerce_app/core/routes_manager/routes.dart';
-import 'package:e_commerce_app/core/services/loading_service.dart';
 import 'package:e_commerce_app/core/services/snackbar_service.dart';
 import 'package:e_commerce_app/core/utils/validators.dart';
 import 'package:e_commerce_app/core/widget/button/custom_elevated_button.dart';
@@ -41,7 +40,6 @@ class _ProfileTabScreenState extends State<ProfileTabScreen> {
   @override
   void initState() {
     super.initState();
-    configLoading();
     _authenticationBloc = context.read<AuthenticationBloc>();
     _fullNameController = TextEditingController(
       text: _authenticationBloc.profile.name,
@@ -224,6 +222,8 @@ class _ProfileTabScreenState extends State<ProfileTabScreen> {
                   controller: _fullNameController,
                   validator: AppValidators.validateFullName,
                   customPrefixWidget: Assets.icons.userIcn.svg(
+                    width: AppWidth.w18,
+                    height:AppHeight.h18 ,
                     color: context.customColorScheme.text,
                   ),
                   textInputType: TextInputType.name,
@@ -239,6 +239,8 @@ class _ProfileTabScreenState extends State<ProfileTabScreen> {
                   controller: _emailController,
                   validator: AppValidators.validateEmail,
                   customPrefixWidget: Assets.icons.emailIcn.svg(
+                    width: AppWidth.w18,
+                    height:AppHeight.h18 ,
                     color: context.customColorScheme.text,
                   ),
                   textInputType: TextInputType.text,
@@ -255,6 +257,8 @@ class _ProfileTabScreenState extends State<ProfileTabScreen> {
                   controller: _phoneNumberController,
                   validator: AppValidators.validatePhoneNumber,
                   customPrefixWidget: Assets.icons.phoneIcn.svg(
+                    width: AppWidth.w18,
+                    height:AppHeight.h18 ,
                     color: context.customColorScheme.text,
                   ),
                   textInputType: TextInputType.number,
@@ -276,6 +280,7 @@ class _ProfileTabScreenState extends State<ProfileTabScreen> {
                   customPrefixWidget: Icon(
                     Icons.location_on_outlined,
                     color: context.customColorScheme.text,
+                    size: AppHeight.h18,
                   ),
                 ),
                 SizedBox(height: AppHeight.h30),
@@ -298,6 +303,7 @@ class _ProfileTabScreenState extends State<ProfileTabScreen> {
                       Icon(
                         Icons.arrow_forward_ios_outlined,
                         color: context.customColorScheme.button,
+                        
                       ),
                     ],
                   ),

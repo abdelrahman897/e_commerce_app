@@ -1,6 +1,5 @@
 import 'package:e_commerce_app/core/params/params.dart';
 import 'package:e_commerce_app/core/resources/constants_manager.dart';
-import 'package:e_commerce_app/core/services/loading_service.dart';
 import 'package:e_commerce_app/core/services/snackbar_service.dart';
 import 'package:e_commerce_app/core/widget/app_bar/custom_app_bar.dart';
 import 'package:e_commerce_app/core/widget/state/failure_state_widget.dart';
@@ -31,7 +30,7 @@ class _ProductScreenState extends State<ProductScreen> {
     _productBloc.add(
       GetProductsEvent(
         params: widget.categoryId != null
-            ? ProductParams(categoryId: widget.categoryId ,)
+            ? ProductParams(categoryId: widget.categoryId)
             : ProductParams(brandId: widget.brandId),
       ),
     );
@@ -42,8 +41,8 @@ class _ProductScreenState extends State<ProductScreen> {
     _productBloc.add(
       GetProductsEvent(
         params: widget.categoryId != null
-            ? ProductParams(categoryId: widget.categoryId , pageNumber: nextPage,)
-            : ProductParams(brandId: widget.brandId , pageNumber: nextPage,),
+            ? ProductParams(categoryId: widget.categoryId, pageNumber: nextPage)
+            : ProductParams(brandId: widget.brandId, pageNumber: nextPage),
         isLoadMore: true,
       ),
     );
@@ -52,13 +51,14 @@ class _ProductScreenState extends State<ProductScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      top: false,
       child: Scaffold(
-        appBar: CustomAppBar(),
+        appBar: const CustomAppBar(),
         body: BlocListener<CartBloc, CartState>(
+          listenWhen: (previous, current) => previous != current,
           listener: (context, cartState) {
             switch (cartState) {
               case CartLoadingState():
-                configLoading();
                 EasyLoading.show(status: AppConstants.loading);
               case AddProductToCartSuccessState():
                 EasyLoading.dismiss();

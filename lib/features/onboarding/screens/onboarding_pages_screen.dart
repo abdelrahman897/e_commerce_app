@@ -78,10 +78,11 @@ class _OnboardingPagesScreenState extends State<OnboardingPagesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: OnboardingAppBar(
-          customLeadingWidget: RichText(
+    return Scaffold(
+      appBar: OnboardingAppBar(
+        customLeadingWidget: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: RichText(
             text: TextSpan(
               children: [
                 TextSpan(
@@ -90,49 +91,49 @@ class _OnboardingPagesScreenState extends State<OnboardingPagesScreen> {
                 ),
                 TextSpan(
                   text: '/${_onboardingList.length}',
-                  style: context.textTheme.bodyLarge?.copyWith(
+                  style: context.textTheme.titleMedium?.copyWith(
                     color: ColorManager.grey,
                   ),
                 ),
               ],
             ),
           ).setHorizontalPaddingOnWidget(AppWidth.w6),
-          customActionsWidgets: [
-            CustomTextButton(
-              onPressed: () => _finishOnboarding(),
-              title: context.appLocalization.skip,
-            ),
-          ],
         ),
-        body:
-            PageView.builder(
-              controller: _pageController,
-              itemBuilder: (context, index) {
-                final item = _onboardingList[index];
-                return OnboardingPageItem(
-                  title: item.title(context.appLocalization),
-                  body: item.body(context.appLocalization),
-                  count: _onboardingList.length,
-                  currentIndex: _currentIndex,
-                  imagePath: context.isDarkMode
-                      ? item.imageDarkPath
-                      : item.imageLightPath,
-                  pageController: _pageController,
-                  onPressedNext: _isLastPage
-                      ? () => _finishOnboarding()
-                      : _goToNextPage,
-                  onPressedPrev: _goToPreviousPage,
-                  isLastPage: _isLastPage,
-                );
-              },
-              itemCount: _onboardingList.length,
-            ).setHorizontalAndVerticalPadding(
-              context,
-              AppWidth.w16,
-              AppHeight.h8,
-              enableMediaQuery: false,
-            ),
+        customActionsWidgets: [
+          CustomTextButton(
+            onPressed: () => _finishOnboarding(),
+            title: context.appLocalization.skip,
+          ),
+        ],
       ),
+      body:
+          PageView.builder(
+            controller: _pageController,
+            itemBuilder: (context, index) {
+              final item = _onboardingList[index];
+              return OnboardingPageItem(
+                title: item.title(context.appLocalization),
+                body: item.body(context.appLocalization),
+                count: _onboardingList.length,
+                currentIndex: _currentIndex,
+                imagePath: context.isDarkMode
+                    ? item.imageDarkPath
+                    : item.imageLightPath,
+                pageController: _pageController,
+                onPressedNext: _isLastPage
+                    ? () => _finishOnboarding()
+                    : _goToNextPage,
+                onPressedPrev: _goToPreviousPage,
+                isLastPage: _isLastPage,
+              );
+            },
+            itemCount: _onboardingList.length,
+          ).setHorizontalAndVerticalPadding(
+            context,
+            AppWidth.w16,
+            AppHeight.h8,
+            enableMediaQuery: false,
+          ),
     );
   }
 }

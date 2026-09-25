@@ -18,7 +18,7 @@ class MostSellingLoadingWidget extends StatelessWidget {
     return Skeletonizer(
       enabled: true,
       child: SizedBox(
-        height: AppHeight.h320,
+        height: AppHeight.h210,
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
           itemCount: _skeletonCount,

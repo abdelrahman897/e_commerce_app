@@ -8,8 +8,11 @@ import 'package:e_commerce_app/features/authentication/presentation/screens/regi
 import 'package:e_commerce_app/features/cart/presentation/screens/cart_product_details_screen.dart';
 import 'package:e_commerce_app/features/cart/presentation/screens/cart_screen.dart';
 import 'package:e_commerce_app/features/categories/presentation/screens/categories_tab_screen.dart';
+import 'package:e_commerce_app/features/checkout/presentation/manager/payment_bloc.dart';
 import 'package:e_commerce_app/features/checkout/presentation/screens/checkout_screen.dart';
+import 'package:e_commerce_app/features/home/presentation/manager/home_bloc.dart';
 import 'package:e_commerce_app/features/home/presentation/screens/home_tab_screen.dart';
+import 'package:e_commerce_app/features/products/presentation/manager/product_bloc.dart';
 import 'package:e_commerce_app/features/wishlist/presentation/screens/wishlist_tab_screen.dart';
 import 'package:e_commerce_app/features/main_layout/main_layout_screen.dart';
 import 'package:e_commerce_app/features/products/domain/entities/product_item.dart';
@@ -50,13 +53,26 @@ class RouteGenerator {
       case Routes.forgetPasswordRoute:
         return MaterialPageRoute(builder: (_) => const ForgetPasswordScreen());
       case Routes.homeTabRoute:
-        return MaterialPageRoute(builder: (_) => HomeTabScreen());
+        return MaterialPageRoute(
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(create: (context) => getIt<HomeBloc>()),
+              BlocProvider(create: (context) => getIt<ProductBloc>()),
+            ],
+            child: const HomeTabScreen(),
+          ),
+        );
       case Routes.cartRoute:
-        return MaterialPageRoute(builder: (_) => const CartScreen());
+        return MaterialPageRoute(builder: (_) => CartScreen());
       case Routes.categoriesTabRoute:
-        return MaterialPageRoute(builder: (_) => const CategoriesTabScreen());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<HomeBloc>(),
+            child: const CategoriesTabScreen(),
+          ),
+        );
       case Routes.wishlistTabRoute:
-        return MaterialPageRoute(builder: (_) => const WishlistTabScreen());
+        return MaterialPageRoute(builder: (_) => WishlistTabScreen());
       case Routes.profileTabRoute:
         return MaterialPageRoute(builder: (_) => const ProfileTabScreen());
       case Routes.cartProductDetailsRoute:
@@ -70,9 +86,13 @@ class RouteGenerator {
       case Routes.productRoute:
         final args = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
-          builder: (_) =>
-              ProductScreen( categoryId: args[AppConstants.categoryId] as String?,
-      brandId: args[AppConstants.brandId] as String?,),
+          builder: (_) => BlocProvider<ProductBloc>(
+            create: (_) => getIt<ProductBloc>(),
+            child: ProductScreen(
+              categoryId: args[AppConstants.categoryId] as String?,
+              brandId: args[AppConstants.brandId] as String?,
+            ),
+          ),
         );
       case Routes.productDetailsRoute:
         final product = settings.arguments as ProductItem;
@@ -80,17 +100,25 @@ class RouteGenerator {
           builder: (_) => ProductDetailsScreen(product: product),
         );
       case Routes.mainLayoutRoute:
-        return MaterialPageRoute(builder: (_) => MainLayoutScreen());
+        return MaterialPageRoute(builder: (_) => const MainLayoutScreen());
       case Routes.searchProductRoute:
-        return MaterialPageRoute(builder: (context) => SearchProductScreen());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider<ProductBloc>(
+            create: (_) => getIt<ProductBloc>(),
+            child: SearchProductScreen(),
+          ),
+        );
       case Routes.checkoutRoute:
         final args = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
-            builder: (_) => CheckoutScreen(
-      orderPrice: args[AppConstants.orderPrice] as int,
-      productName: args[AppConstants.productName] as String,
-      quantity: args[AppConstants.quantity] as int,
-    ),
+          builder: (_) => BlocProvider(
+            create: (_) => getIt<PaymentBloc>(),
+            child: CheckoutScreen(
+              orderPrice: args[AppConstants.orderPrice] as int,
+              productName: args[AppConstants.productName] as String,
+              quantity: args[AppConstants.quantity] as int,
+            ),
+          ),
         );
       case Routes.testRoute:
         return MaterialPageRoute(builder: (_) => const TestScreen());

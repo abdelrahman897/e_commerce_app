@@ -7,7 +7,6 @@ import 'package:e_commerce_app/core/resources/color_manager.dart';
 import 'package:e_commerce_app/core/resources/constants_manager.dart';
 import 'package:e_commerce_app/core/resources/values_manager.dart';
 import 'package:e_commerce_app/core/routes_manager/routes.dart';
-import 'package:e_commerce_app/core/services/loading_service.dart';
 import 'package:e_commerce_app/core/services/snackbar_service.dart';
 import 'package:e_commerce_app/core/utils/validators.dart';
 import 'package:e_commerce_app/core/widget/button/custom_elevated_button.dart';
@@ -45,11 +44,10 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AuthenticationBloc, AuthenticationState>(
+    return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, forgetPasswordState) {
         switch (forgetPasswordState) {
           case AuthenticationLoadingState():
-            configLoading();
             EasyLoading.show(status: AppConstants.loading);
           case ForgetPasswordSuccessState():
             EasyLoading.dismiss();
@@ -72,64 +70,60 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
             return;
         }
       },
-      builder: (context, forgetPasswordState) {
-        return SafeArea(
-          child: Scaffold(
-            body: Form(
-              key: _keyForm,
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child:
-                    Column(
-                      children: [
-                        HeaderLogoSection(),
-                        ImageForgetPasswordSection(),
-                        TextFormFieldItem(
-                          key: const Key(WidgetKeys.emailFormField),
-                          title: context.appLocalization.email,
-                          hint: context.appLocalization.emailHint,
-                          controller: _emailController,
-                          validator: AppValidators.validateEmail,
-                          customPrefixWidget: Assets.icons.emailIcn.svg(
-                            color: context.customColorScheme.text,
-                          ),
-                          textInputType: TextInputType.text,
+      child: SafeArea(
+        child: Scaffold(
+          body: Form(
+            key: _keyForm,
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child:
+                  Column(
+                    children: [
+                      HeaderLogoSection(),
+                      ImageForgetPasswordSection(),
+                      TextFormFieldItem(
+                        key: const Key(WidgetKeys.emailFormField),
+                        title: context.appLocalization.email,
+                        hint: context.appLocalization.emailHint,
+                        controller: _emailController,
+                        validator: AppValidators.validateEmail,
+                        customPrefixWidget: Assets.icons.emailIcn.svg(
+                          color: context.customColorScheme.text,
                         ),
-                        SizedBox(height: AppHeight.h20),
-                        CustomElevatedButton(
-                          key: const Key(WidgetKeys.forgetPasswordElevatedButton),
-                          customChildWidget: Text(
-                            context.appLocalization.verifyEmail,
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: ColorManager.white,
-                            ),
+                        textInputType: TextInputType.text,
+                      ),
+                      SizedBox(height: AppHeight.h20),
+                      CustomElevatedButton(
+                        key: const Key(WidgetKeys.forgetPasswordElevatedButton),
+                        customChildWidget: Text(
+                          context.appLocalization.verifyEmail,
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: ColorManager.white,
                           ),
-                          onTap: () {
-                            if (_keyForm.currentState!.validate()) {
-                              final params = ForgetPasswordParams(
-                                email: _emailController.text,
-                              );
-                              context.read<AuthenticationBloc>().add(
-                                ForgetPasswordEvent(
-                                  forgetPasswordParams: params,
-                                ),
-                              );
-                            }
-                          },
                         ),
-                      ],
-                    ).setHorizontalAndVerticalPadding(
-                      context,
-                      25,
-                      50,
-                      enableMediaQuery: false,
-                    ),
-              ),
+                        onTap: () {
+                          if (_keyForm.currentState!.validate()) {
+                            final params = ForgetPasswordParams(
+                              email: _emailController.text,
+                            );
+                            context.read<AuthenticationBloc>().add(
+                              ForgetPasswordEvent(forgetPasswordParams: params),
+                            );
+                          }
+                        },
+                      ),
+                    ],
+                  ).setHorizontalAndVerticalPadding(
+                    context,
+                    25,
+                    50,
+                    enableMediaQuery: false,
+                  ),
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

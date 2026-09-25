@@ -8,6 +8,7 @@ abstract final class AppWidth {
   static double get w8 => 8.0.w;
   static double get w10 => 10.0.w;
   static double get w12 => 12.0.w;
+  static double get w14 => 14.0.w;
   static double get w16 => 16.0.w;
   static double get w18 => 18.0.w;
   static double get w20 => 20.0.w;
@@ -26,6 +27,7 @@ abstract final class AppWidth {
   static double get w160 => 160.0.w;
   static double get w165 => 165.0.w;
   static double get w170 => 170.0.w;
+  static double get w190 => 190.0.w;
   static double get w200 => 200.0.w;
 }
 
@@ -63,10 +65,14 @@ abstract final class AppHeight {
   static double get h110 => 110.0.h;
   static double get h130 => 130.0.h;
   static double get h150 => 150.0.h;
+  static double get h190 => 190.0.h;
   static double get h200 => 200.0.h;
   static double get h250 => 250.0.h;
   static double get h270 => 270.0.h;
   static double get h210 => 210.0.h;
+  static double get h220 => 220.0.h;
+  static double get h240 => 240.0.h;
+    static double get h300 => 300.0.h;
   static double get h320 => 320.0.h;
 }
 
@@ -78,6 +84,7 @@ abstract final class AppRadius {
   static double get r10 => 10.0.r;
   static double get r12 => 12.0.r;
   static double get r14 => 14.0.r;
+  static double get r15 => 15.0.r;
   static double get r16 => 16.0.r;
   static double get r18 => 18.0.r;
   static double get r20 => 20.0.r;
@@ -85,6 +92,7 @@ abstract final class AppRadius {
   static double get r25 => 25.0.r;
   static double get r28 => 28.0.r;
   static double get r30 => 30.0.r;
+  static double get r80 => 80.0.r;
   static double get r100 => 100.0.r;
   static double get iconSmall => 16.0.r;
   static double get iconNormal => 24.0.r;

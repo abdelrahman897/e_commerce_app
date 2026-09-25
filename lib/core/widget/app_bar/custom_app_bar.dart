@@ -12,8 +12,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: Assets.icons.splashLogo.svg(
-        width: AppWidth.w32,
-        height: AppHeight.h32,
+        width: AppWidth.w36,
+        height: AppHeight.h36,
         colorFilter: ColorFilter.mode(
           context.customColorScheme.button,
           BlendMode.srcIn,
@@ -23,7 +23,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         preferredSize: Size.fromHeight(AppHeight.h60),
         child: Padding(
           padding: EdgeInsets.only(
-            bottom: AppHeight.h8,
+            bottom: AppHeight.h4,
             right: AppWidth.w8,
             left: AppWidth.w8,
           ),

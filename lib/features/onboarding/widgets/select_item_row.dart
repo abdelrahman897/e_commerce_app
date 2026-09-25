@@ -37,7 +37,7 @@ class SelectItemRow extends StatelessWidget {
         const Spacer(),
         CustomBounceableButton(
           width: AppWidth.w83,
-          height: AppHeight.h32,
+          height: AppHeight.h40,
           isSelected: isFirstSelected,
           onTap: onTapFirst,
           backgroundColor: isFirstSelected

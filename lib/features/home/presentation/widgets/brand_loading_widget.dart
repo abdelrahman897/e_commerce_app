@@ -15,27 +15,24 @@ class BrandLoadingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: AppHeight.h250,
+      height: AppHeight.h300,
       child: Skeletonizer(
         enabled: true,
-        child: SizedBox(
-          height: AppHeight.h250,
-          child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: AppWidth.w8,
-              mainAxisSpacing: AppHeight.h8,
-            ),
-            itemCount: _skeletonItems.length,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              final brand = _skeletonItems[index];
-              return BrandCardItem(
-                title: brand.name,
-                imageItemPath: brand.imageUrl,
-              );
-            },
+        child: GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+             crossAxisSpacing: AppWidth.w16,
+          mainAxisSpacing: AppHeight.h16,
           ),
+          itemCount: _skeletonItems.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            final brand = _skeletonItems[index];
+            return BrandCardItem(
+              title: brand.name,
+              imageItemPath: brand.imageUrl,
+            );
+          },
         ),
       ),
     );

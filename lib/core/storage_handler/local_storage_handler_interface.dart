@@ -4,6 +4,10 @@ abstract interface class LocalStorageHandlerInterface {
     required String key,
     required dynamic  value,
   });
+  Future<void> putAll({
+    required String boxName,
+    required Map<String, dynamic> entries,
+  });
   Future<T> get<T>({
     required String boxName,
     required String key,

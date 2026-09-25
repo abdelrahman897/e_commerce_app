@@ -18,12 +18,12 @@ class BrandBodySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: AppHeight.h270,
+      height: AppHeight.h320,
       child: GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          crossAxisSpacing: AppWidth.w8,
-          mainAxisSpacing: AppHeight.h8,
+          crossAxisSpacing: AppWidth.w16,
+          mainAxisSpacing: AppHeight.h16,
         ),
         itemCount: isMaxPage ? brands.length : brands.length + 1,
         scrollDirection: Axis.horizontal,

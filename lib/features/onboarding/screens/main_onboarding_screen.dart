@@ -103,7 +103,7 @@ class MainOnboardingScreen extends StatelessWidget {
                 context.appLocalization.english,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: FontSize.s18,
+                  fontSize: FontSize.s16,
                   color: isEnglish
                       ? ColorManager.white
                       : context.customColorScheme.button,
@@ -113,7 +113,7 @@ class MainOnboardingScreen extends StatelessWidget {
                 context.appLocalization.arabic,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: FontSize.s18,
+                  fontSize: FontSize.s16,
                   color: !isEnglish
                       ? ColorManager.white
                       : context.customColorScheme.button,

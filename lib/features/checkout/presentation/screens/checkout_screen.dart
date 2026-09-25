@@ -8,7 +8,6 @@ import 'package:e_commerce_app/core/params/params.dart';
 import 'package:e_commerce_app/core/resources/color_manager.dart';
 import 'package:e_commerce_app/core/resources/constants_manager.dart';
 import 'package:e_commerce_app/core/resources/values_manager.dart';
-import 'package:e_commerce_app/core/services/loading_service.dart';
 import 'package:e_commerce_app/core/services/snackbar_service.dart';
 import 'package:e_commerce_app/core/utils/date_formatter.dart';
 import 'package:e_commerce_app/core/utils/local_notification.dart';
@@ -39,19 +38,18 @@ class CheckoutScreen extends StatefulWidget {
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
   final int taxValue = 10;
-  int _selectedIndex = 0;
-  late final int totalPrice;
+  int _selectedPaymentIndex = 0;
+  late final int _totalPrice;
   @override
   void initState() {
     super.initState();
-    configLoading();
-    totalPrice = taxValue + widget.orderPrice;
+    _totalPrice = taxValue + widget.orderPrice;
   }
 
-  void _onItemSelected(int index) {
-    if (_selectedIndex == index) return;
-    setState(() => _selectedIndex = index);
+  void _onPaymentMethodSelected(int index) {
+    _selectedPaymentIndex = index;
   }
+
 
   Future<void> _showOrderSuccessNotification() async {
     final formattedTime = DateFormatter.format(DateTime.now());
@@ -89,98 +87,96 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
+  void _onSubmitPayment() {
+    context.read<PaymentBloc>().add(
+      CreatePaymentIntentEvent(
+        params: PaymentParams(
+          amount: _totalPrice,
+          currency: AppConstants.egyptcurrency,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: BlocProvider(
-        create: (_) => getIt<PaymentBloc>(),
-        child: BlocConsumer<PaymentBloc, PaymentState>(
-          listener: (context, paymentState) {
-            switch (paymentState) {
-              case PaymentLoadingState():
-                EasyLoading.show(status: AppConstants.loading);
-              case CreatePaymentIntentSuccessState():
-                EasyLoading.dismiss();
-                context.read<PaymentBloc>().add(const PaymentProcessEvent());
-              case ProcessPaymentSuccessState():
-                EasyLoading.dismiss();
-                unawaited(_showOrderSuccessNotification());
-                _showSuccessDialog();
-              case PaymentCancelledState():
-                EasyLoading.dismiss();
-              case ProcessPaymentFailureState():
-                EasyLoading.dismiss();
-                _showFailureDialog(paymentState.failureMessage);
-              case PaymentFailureState():
-                EasyLoading.dismiss();
-                SnackBarService.showErrorMessage(AppStrings.failureMessage);
-              default:
-                return;
-            }
-          },
-          builder: (context, paymentState) {
-            return Scaffold(
-              appBar: ProductAppBar(title: context.appLocalization.checkOut),
-              body: SingleChildScrollView(
-                child:
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(context.appLocalization.paymentMethods),
-                        SizedBox(height: AppHeight.h12),
-                        PaymentMethodSection(
-                          selectedIndex: _selectedIndex,
-                          onSelectedItem: _onItemSelected,
-                        ),
-                        SizedBox(height: AppHeight.h16),
-                        Divider(endIndent: AppWidth.w24, indent: AppWidth.w24),
-                        SizedBox(height: AppHeight.h12),
-                        TextCheckoutItem(
-                          title: context.appLocalization.order,
-                          value: widget.orderPrice,
-                        ),
-                        SizedBox(height: AppHeight.h12),
-                        TextCheckoutItem(
-                          title: context.appLocalization.tax,
-                          value: taxValue,
-                        ),
-                        SizedBox(height: AppHeight.h16),
-                        TextCheckoutItem(
-                          title: context.appLocalization.totalPrice,
-                          value: totalPrice,
-                        ),
-                        SizedBox(height: AppHeight.h20),
-                        CustomElevatedButton(
-                          customChildWidget: Text(
-                            context.appLocalization.proceedToPayment,
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: ColorManager.white,
-                            ),
+    return BlocListener<PaymentBloc, PaymentState>(
+      listener: (context, paymentState) {
+        switch (paymentState) {
+          case PaymentLoadingState():
+            EasyLoading.show(status: AppConstants.loading);
+          case CreatePaymentIntentSuccessState():
+            EasyLoading.dismiss();
+            context.read<PaymentBloc>().add(const PaymentProcessEvent());
+          case ProcessPaymentSuccessState():
+            EasyLoading.dismiss();
+            unawaited(_showOrderSuccessNotification());
+            unawaited(_showSuccessDialog());
+          case PaymentCancelledState():
+            EasyLoading.dismiss();
+          case ProcessPaymentFailureState():
+            EasyLoading.dismiss();
+            _showFailureDialog(paymentState.failureMessage);
+          case PaymentFailureState():
+            EasyLoading.dismiss();
+            SnackBarService.showErrorMessage(AppStrings.failureMessage);
+          default:
+            return;
+        }
+      },
+      child: Scaffold(
+        appBar: ProductAppBar(title: context.appLocalization.checkOut),
+        body: SingleChildScrollView(
+          child:
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(context.appLocalization.paymentMethods),
+                  SizedBox(height: AppHeight.h12),
+                  PaymentMethodSection(
+                    initialSelectedIndex: _selectedPaymentIndex,
+                    onSelectedItem: _onPaymentMethodSelected,
+                  ),
+                  SizedBox(height: AppHeight.h16),
+                  Divider(endIndent: AppWidth.w24, indent: AppWidth.w24),
+                  SizedBox(height: AppHeight.h12),
+                  TextCheckoutItem(
+                    title: context.appLocalization.order,
+                    value: widget.orderPrice,
+                  ),
+                  SizedBox(height: AppHeight.h12),
+                  TextCheckoutItem(
+                    title: context.appLocalization.tax,
+                    value: taxValue,
+                  ),
+                  SizedBox(height: AppHeight.h16),
+                  TextCheckoutItem(
+                    title: context.appLocalization.totalPrice,
+                    value: _totalPrice,
+                  ),
+                  SizedBox(height: AppHeight.h20),
+                  BlocSelector<PaymentBloc, PaymentState, bool>(
+                    selector: (state) => state is PaymentLoadingState,
+                    builder: (context, isLoading) {
+                      return CustomElevatedButton(
+                        customChildWidget: Text(
+                          context.appLocalization.proceedToPayment,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            color: ColorManager.white,
                           ),
-                          onTap: paymentState is PaymentLoadingState
-                              ? null
-                              : () {
-                                  context.read<PaymentBloc>().add(
-                                    CreatePaymentIntentEvent(
-                                      params: PaymentParams(
-                                        amount: totalPrice,
-                                        currency: AppConstants.egyptcurrency,
-                                      ),
-                                    ),
-                                  );
-                                },
                         ),
-                      ],
-                    ).setHorizontalAndVerticalPadding(
-                      context,
-                      AppWidth.w12,
-                      AppHeight.h8,
-                      enableMediaQuery: false,
-                    ),
+                        onTap: isLoading ? null : _onSubmitPayment,
+                      );
+                    },
+                  ),
+                ],
+              ).setHorizontalAndVerticalPadding(
+                context,
+                AppWidth.w12,
+                AppHeight.h8,
+                enableMediaQuery: false,
               ),
-            );
-          },
         ),
       ),
     );

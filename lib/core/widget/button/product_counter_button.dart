@@ -21,6 +21,16 @@ class ProductCounterButton extends StatefulWidget {
 
 class _ProductCounterButtonState extends State<ProductCounterButton> {
   late int _counter = widget.initialValue;
+
+  @override
+  void didUpdateWidget(covariant ProductCounterButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initialValue != widget.initialValue &&
+        widget.initialValue != _counter) {
+      setState(() => _counter = widget.initialValue);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,6 +47,7 @@ class _ProductCounterButtonState extends State<ProductCounterButton> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CustomIconButton(
             iconData: Icons.remove_circle_outline,
@@ -49,6 +60,7 @@ class _ProductCounterButtonState extends State<ProductCounterButton> {
           ),
           Text(
             '$_counter',
+            textAlign: TextAlign.center,
             style: context.textTheme.titleMedium?.copyWith(
               color: ColorManager.white,
             ),

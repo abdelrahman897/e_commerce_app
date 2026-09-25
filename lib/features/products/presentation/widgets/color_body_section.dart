@@ -6,10 +6,12 @@ import 'package:flutter_bounceable/flutter_bounceable.dart';
 class ColorBodySection extends StatefulWidget {
   final List<Color> colors;
   final ValueChanged<int> onSelected;
+  final int initialIndex;
   const ColorBodySection({
     super.key,
     required this.colors,
     required this.onSelected,
+    this.initialIndex = -1,
   });
 
   @override
@@ -17,7 +19,7 @@ class ColorBodySection extends StatefulWidget {
 }
 
 class _ColorBodySectionState extends State<ColorBodySection> {
-  int selected = 0;
+  late int _selectedIndex = widget.initialIndex;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -26,16 +28,17 @@ class _ColorBodySectionState extends State<ColorBodySection> {
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           final color = widget.colors[index];
-          final isSelected = selected == index;
+          final isSelected = _selectedIndex == index;
           return Bounceable(
             onTap: () {
-              setState(() => selected = index);
+              if (isSelected) return;
+              setState(() => _selectedIndex = index);
               widget.onSelected(index);
             },
             child: ColorItem(color: color, isSelected: isSelected),
           );
         },
-        separatorBuilder: (context, index) => SizedBox(width: AppWidth.w16),
+        separatorBuilder: (context, _) => SizedBox(width: AppWidth.w16),
         itemCount: widget.colors.length,
       ),
     );

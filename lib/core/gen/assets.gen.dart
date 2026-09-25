@@ -67,6 +67,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/delete_icn.svg
   SvgGenImage get deleteIcn => const SvgGenImage('assets/icons/delete_icn.svg');
 
+  /// File path: assets/icons/e_commerce_app_logo_icn.png
+  AssetGenImage get eCommerceAppLogoIcn =>
+      const AssetGenImage('assets/icons/e_commerce_app_logo_icn.png');
+
   /// File path: assets/icons/edit_icn.svg
   SvgGenImage get editIcn => const SvgGenImage('assets/icons/edit_icn.svg');
 
@@ -156,6 +160,7 @@ class $AssetsIconsGen {
     categoryIcn,
     darkModeIcn,
     deleteIcn,
+    eCommerceAppLogoIcn,
     editIcn,
     emailIcn,
     errorIcn,

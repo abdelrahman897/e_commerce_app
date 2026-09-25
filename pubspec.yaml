@@ -60,6 +60,7 @@ dependencies:
   sentry: ^9.30.0
   sentry_flutter: ^9.30.0
   flutter_local_notifications: ^22.3.1
+  stream_transform: ^2.1.2
 
 dev_dependencies:
   sentry_dart_plugin: ^3.4.0

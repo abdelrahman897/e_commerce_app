@@ -9,6 +9,7 @@ const ForgetPasswordSection({ super.key, this.onPressed });
 
   @override
   Widget build(BuildContext context){
+    
     return FittedBox(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,

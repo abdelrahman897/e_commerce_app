@@ -25,10 +25,15 @@ class BrandCardItem extends StatelessWidget {
         children: [
           CustomCachedNetworkImage(
             imageItemPath: imageItemPath,
-            borderRadius: BorderRadius.circular(AppRadius.r24),
+            borderRadius: BorderRadius.circular(AppRadius.r100),
           ),
           SizedBox(height: AppHeight.h8),
-          AutoSizeText(title, style: context.textTheme.bodyMedium),
+          AutoSizeText(
+            title,
+            style: context.textTheme.labelMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ],
       ),
     );

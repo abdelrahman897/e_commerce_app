@@ -3,7 +3,6 @@
 import 'package:e_commerce_app/core/theme/app_colors_schemes.dart';
 import 'package:e_commerce_app/core/theme/custom_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'app_component_themes.dart';
 import 'app_text_theme.dart';
 
@@ -20,7 +19,7 @@ abstract final class ThemeManager {
     return ThemeData(
       useMaterial3: true,
       textTheme: textTheme,
-
+      brightness: colors.brightness,
       scaffoldBackgroundColor: colors.primary,
       extensions: [colors],
 
@@ -44,32 +43,11 @@ abstract final class ThemeManager {
       //       colors,
       //       textTheme,
       //     ),
-      //     navigationBarTheme: AppComponentThemes.navigationBarTheme(
-      //      colors,
-      //      textTheme,
-      //   ),
       dividerTheme: AppComponentThemes.dividerTheme(colors),
       //   chipTheme: AppComponentThemes.chipTheme(colors, textTheme),
       snackBarTheme: AppComponentThemes.snackBarTheme(colors, textTheme),
-      // dialogTheme: AppComponentThemes.dialogTheme(colors, textTheme),
-      // switchTheme: AppComponentThemes.switchTheme(colors),
-      // checkboxTheme: AppComponentThemes.checkboxTheme(colors),
-      // floatingActionButtonTheme: AppComponentThemes.fabTheme(colors),
+       dialogTheme: AppComponentThemes.dialogTheme(colors, textTheme),
       progressIndicatorTheme: AppComponentThemes.progressIndicatorTheme(colors),
-    );
-  }
-
-  static void syncStatusBar(CustomColorScheme colors) {
-    final isDark = colors.brightness == Brightness.dark;
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
-        systemNavigationBarColor: colors.primary,
-        systemNavigationBarIconBrightness: isDark
-            ? Brightness.light
-            : Brightness.dark,
-      ),
     );
   }
 }

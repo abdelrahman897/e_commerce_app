@@ -26,7 +26,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     CreatePaymentIntentEvent event,
     Emitter<PaymentState> emit,
   ) async {
-    emit(PaymentLoadingState());
+    emit(const PaymentLoadingState());
     final result = await _createPaymentIntent(params: event.params);
     await result.fold(
       (failure) async =>
@@ -57,10 +57,10 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   ) async {
     try {
       await _stripe.presentPaymentSheet();
-      emit(ProcessPaymentSuccessState());
+      emit(const ProcessPaymentSuccessState());
     } on StripeException catch (stripeException) {
       if (stripeException.error.code == FailureCode.Canceled) {
-        emit(PaymentCancelledState());
+        emit(const PaymentCancelledState());
       } else {
         emit(
           ProcessPaymentFailureState(
