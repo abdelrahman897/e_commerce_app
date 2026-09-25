@@ -14,18 +14,17 @@ class ParagraphSection extends StatelessWidget {
       children: [
         Text(
           title,
-          style: context.textTheme.titleLarge,
+          style: context.textTheme.titleMedium,
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: AppHeight.h8),
+        SizedBox(height: AppHeight.h6),
         Text(
           body,
           style: context.textTheme.bodyMedium?.copyWith(
             color: ColorManager.grey
           ),
           textAlign: TextAlign.center,
-
-          maxLines: 4,
+          maxLines: 3,
         ),
       ],
     );

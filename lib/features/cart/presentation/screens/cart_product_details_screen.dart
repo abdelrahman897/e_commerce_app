@@ -169,7 +169,7 @@ class _CartProductDetailsScreenState extends State<CartProductDetailsScreen> {
                           Text(
                             context.appLocalization.checkOut,
                             style: context.textTheme.bodyMedium?.copyWith(
-                              color: context.customColorScheme.primary,
+                              color: context.customColorScheme.text,
                             ),
                           ),
                           Icon(

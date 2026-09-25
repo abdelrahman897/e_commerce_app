@@ -45,7 +45,7 @@ class SelectItemRow extends StatelessWidget {
               : context.customColorScheme.primary,
           customChildWidget: customFirstChild,
         ),
-        SizedBox(width: AppWidth.w8),
+        SizedBox(width: AppWidth.w16),
         CustomBounceableButton(
           width: AppWidth.w83,
           height: AppHeight.h32,
